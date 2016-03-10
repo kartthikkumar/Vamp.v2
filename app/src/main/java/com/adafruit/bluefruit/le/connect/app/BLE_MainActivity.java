@@ -317,10 +317,20 @@ public class BLE_MainActivity extends AppCompatActivity implements BleManager.Bl
                                 mComponentToStartWhenConnected = InfoActivity.class;
                                 break;
                             }
+
+
+                            // UART Modifcation ***************************************************
+
                             case R.string.scan_connectservice_uart: {           // Uart
-                                mComponentToStartWhenConnected = UartActivity.class;
+//                                mComponentToStartWhenConnected = UartActivity.class;
+                                mComponentToStartWhenConnected = MainActivity.class;
+
                                 break;
                             }
+
+                            // UART Modifcation ****************************************************
+
+
                             case R.string.scan_connectservice_pinio: {        // PinIO
                                 mComponentToStartWhenConnected = PinIOActivity.class;
                                 break;

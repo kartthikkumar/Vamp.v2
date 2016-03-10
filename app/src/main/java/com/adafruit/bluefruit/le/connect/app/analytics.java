@@ -1,5 +1,6 @@
 package com.adafruit.bluefruit.le.connect.app;
 
+import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -51,6 +52,17 @@ public class analytics extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        // ********************** UART Communication ******************************
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startUARTActivity = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.UartActivity.class);
+                startActivity(startUARTActivity);
+            }
+        });
+        // ***************************************************************
     }
 
 
