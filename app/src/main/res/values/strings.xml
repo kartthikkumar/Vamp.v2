@@ -357,7 +357,7 @@
 
     <!-- Common -->
     <string name="dialog_ok">OK</string>
-    <string name="title_activity_ble__main">BLE_MainActivity</string>
+    <string name="title_activity_ble__main">VAMP: BLE Connection</string>
 
     <!-- Debug -->
 

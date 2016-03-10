@@ -100,7 +100,7 @@ public class BLE_MainActivity extends AppCompatActivity implements BleManager.Bl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_ble_activity);
 
         // Init variables
         mBleManager = BleManager.getInstance(this);
