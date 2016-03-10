@@ -358,6 +358,8 @@
     <!-- Common -->
     <string name="dialog_ok">OK</string>
     <string name="title_activity_ble__main">VAMP: BLE Connection</string>
+    <string name="title_activity_analytics">Home Analytics</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
     <!-- Debug -->
 

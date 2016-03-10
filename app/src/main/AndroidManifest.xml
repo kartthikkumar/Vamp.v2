@@ -34,7 +34,7 @@
             android:value="@integer/google_play_services_version" />
 
         <!-- Mqtt Service -->
-        <service android:name="org.eclipse.paho.android.service.MqttService"></service>
+        <service android:name="org.eclipse.paho.android.service.MqttService" />
 
         <activity
             android:name=".app.MainActivity"
@@ -119,11 +119,11 @@
 
         <activity
             android:name=".app.settings.ConnectedSettingsActivity"
-            android:label="@string/title_activity_connected_settings"></activity>
+            android:label="@string/title_activity_connected_settings" />
         <activity
             android:name=".app.BeaconActivity"
             android:label="@string/title_activity_beacon"
-            android:windowSoftInputMode="stateVisible|adjustPan"></activity>
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".app.ColorPickerActivity"
             android:label="@string/title_activity_color_picker"
@@ -151,8 +151,11 @@
         </activity>
         <activity
             android:name=".app.BLE_MainActivity"
-            android:label="@string/title_activity_ble__main">
-            </activity>
+            android:label="@string/title_activity_ble__main"></activity>
+        <activity
+            android:name=".app.analytics"
+            android:label="@string/title_activity_analytics"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -35,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
         // ********************** Grid View ******************************
         GridView gridView = (GridView) findViewById(R.id.gridview);
         gridView.setAdapter(new MyAdapter(this));
+
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent startAnalytics = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.analytics.class);
+                startActivity(startAnalytics);
+            }
+        });
         // ***************************************************************
 
 
