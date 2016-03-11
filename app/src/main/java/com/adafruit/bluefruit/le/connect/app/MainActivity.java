@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent startAnalytics = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.analytics.class);
+                Intent startAnalytics = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
                 startActivity(startAnalytics);
             }
         });

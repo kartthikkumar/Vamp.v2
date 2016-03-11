@@ -151,11 +151,25 @@
         </activity>
         <activity
             android:name=".app.BLE_MainActivity"
-            android:label="@string/title_activity_ble__main"></activity>
+            android:label="@string/title_activity_ble__main" />
         <activity
             android:name=".app.analytics"
             android:label="@string/title_activity_analytics"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-    </application>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+
+
+        <activity
+            android:name="com.adafruit.bluefruit.le.connect.app.ListActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+</application>
+
 
 </manifest>
