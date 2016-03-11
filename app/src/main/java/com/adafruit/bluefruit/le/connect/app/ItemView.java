@@ -1,6 +1,7 @@
 package com.adafruit.bluefruit.le.connect.app;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -42,9 +43,11 @@ public class ItemView extends RelativeLayout {
     }
 
     public void setItem(Item item) {
+
         mTitleTextView.setText(item.getTitle());
         mDescriptionTextView.setText(item.getDescription());
-        // TODO: set up image URL
+        mImageView.setImageDrawable(getResources().getDrawable(item.getImageUrl()));
+
     }
     
     public ImageView getImageView () {

@@ -1,22 +1,22 @@
 package com.adafruit.bluefruit.le.connect.app;
 
 public class Item {
-    private String mImageUrl;
+    private Integer mImageUrl;
     private String mTitle;
     private String mDescription;
     
-    public Item(String imageUrl, String title, String description) {
+    public Item(Integer imageUrl, String title, String description) {
         super();
         mImageUrl = imageUrl;
         mTitle = title;
         mDescription = description;
     }
 
-    public String getImageUrl() {
+    public Integer getImageUrl() {
         return mImageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
+    public void setImageUrl(Integer imageUrl) {
         mImageUrl = imageUrl;
     }
 

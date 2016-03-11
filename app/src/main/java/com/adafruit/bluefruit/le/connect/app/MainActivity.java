@@ -39,8 +39,21 @@ public class MainActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent startAnalytics = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
-                startActivity(startAnalytics);
+
+                switch (position) {
+                    case 0:
+                        Intent ListActivity = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
+                        startActivity(ListActivity);
+                        break;
+                    case  1:
+                        Intent ListActivity2 = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
+                        startActivity(ListActivity2);
+                        break;
+                    default:
+                        Intent ListActivityDefault = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
+                        startActivity(ListActivityDefault);
+                        break;
+                }
             }
         });
         // ***************************************************************

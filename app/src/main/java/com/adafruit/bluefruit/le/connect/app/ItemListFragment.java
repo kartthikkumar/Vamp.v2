@@ -1,34 +1,63 @@
 package com.adafruit.bluefruit.le.connect.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.ListView;
+import com.adafruit.bluefruit.le.connect.app.analytics;
 import com.adafruit.bluefruit.le.connect.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 final public class ItemListFragment extends ListFragment {
+
+    public List<Item> availableDevices = new ArrayList<Item>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
-         ArrayList<Item> items = new ArrayList<Item>();
-          for (int i = 0; i < 10; i++) {
-              String url = String.format("http://www.google.com/image/%d.png", i);
-              String title = String.format("Item %d", i);
-              String description = String.format("Description of Item %d", i);
-              Item item = new Item(url, title, description);
-              items.add(item);
-          }
-        
-        setListAdapter(new ItemAdapter(getActivity(), items));
+        availableDevices.add(new Item(R.drawable.music, "Home Theatre Receiver", "South Wall"));
+        availableDevices.add(new Item(R.drawable.monitor, "Flat Screen", "North Wall"));
+        availableDevices.add(new Item(R.drawable.lamp, "Central Lamp", "East Wall"));
+        availableDevices.add(new Item(R.drawable.computerdesk, "Computer", "East Wall"));
+        availableDevices.add(new Item(R.drawable.monitortwo, "Additional Monitor", "East Wall"));
+        availableDevices.add(new Item(R.drawable.desklamp, "Desk Lamp", "East Wall"));
+        availableDevices.add(new Item(R.drawable.fan, "Fan", "East Wall"));
+        availableDevices.add(new Item(R.drawable.fireplace, "Fireplace", "West Wall"));
+        availableDevices.add(new Item(R.drawable.outlet, "Central Plug", "North Wall"));
+        availableDevices.add(new Item(R.drawable.plug, "Extension Bar", "North Wall"));
+
+        setListAdapter(new ItemAdapter(getActivity(), availableDevices));
 
         return v;
     }
 
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        super.onListItemClick(l, v, position, id);
+
+//        Log.i("testy", "I Clicked on Row " + index + " and it worked!");
+
+        switch (position) {
+            case 0:
+                Intent startAnalytics = new Intent(getActivity().getApplicationContext(), analytics.class);
+                startActivity(startAnalytics);
+                break;
+            case  1:
+                Intent startAnalytics2 = new Intent(getActivity().getApplicationContext(), analytics.class);
+                startActivity(startAnalytics2);
+                break;
+            default:
+                Intent startAnalyticsDefault = new Intent(getActivity().getApplicationContext(), analytics.class);
+                startActivity(startAnalyticsDefault);
+                break;
+        }
+    }
 }
