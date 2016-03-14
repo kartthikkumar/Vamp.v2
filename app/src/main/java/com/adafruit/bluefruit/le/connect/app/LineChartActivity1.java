@@ -62,7 +62,8 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
 
         tvX = (TextView) findViewById(R.id.tvXMax);
         tvY = (TextView) findViewById(R.id.tvYMax);
-
+        tvX.setTextColor(Color.WHITE);
+        tvY.setTextColor(Color.WHITE);
 
 
         mSeekBarX = (SeekBar) findViewById(R.id.seekBar1);
@@ -101,7 +102,7 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         mChart.setPinchZoom(true);
 
         // set an alternative background color
-        // mChart.setBackgroundColor(Color.GRAY);
+//         mChart.setBackgroundColor(Color.GRAY);
 
         // create a custom MarkerView (extend MarkerView) and specify the layout
         // to use for it
@@ -116,10 +117,13 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         llXAxis.enableDashedLine(10f, 10f, 0f);
         llXAxis.setLabelPosition(LimitLabelPosition.RIGHT_BOTTOM);
         llXAxis.setTextSize(10f);
+        llXAxis.setTextColor(Color.WHITE);
+
 
         XAxis xAxis = mChart.getXAxis();
         //xAxis.setValueFormatter(new MyCustomXAxisValueFormatter());
         //xAxis.addLimitLine(llXAxis); // add x-axis limit line
+        xAxis.setTextColor(Color.WHITE);
 
 //        Typeface tf = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
@@ -128,6 +132,8 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         ll1.enableDashedLine(10f, 10f, 0f);
         ll1.setLabelPosition(LimitLabelPosition.RIGHT_TOP);
         ll1.setTextSize(10f);
+        ll1.setTextColor(Color.WHITE);
+
 //        ll1.setTypeface(tf);
 
         LimitLine ll2 = new LimitLine(-30f, "Lower Limit");
@@ -135,6 +141,8 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         ll2.enableDashedLine(10f, 10f, 0f);
         ll2.setLabelPosition(LimitLabelPosition.RIGHT_BOTTOM);
         ll2.setTextSize(10f);
+        ll2.setTextColor(Color.WHITE);
+
 //        ll2.setTypeface(tf);
 
         YAxis leftAxis = mChart.getAxisLeft();
@@ -143,6 +151,9 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         leftAxis.addLimitLine(ll2);
         leftAxis.setAxisMaxValue(220f);
         leftAxis.setAxisMinValue(-50f);
+        leftAxis.setTextColor(Color.WHITE);
+        leftAxis.setAxisLineColor(Color.WHITE);
+
         //leftAxis.setYOffset(20f);
         leftAxis.enableGridDashedLine(10f, 10f, 0f);
         leftAxis.setDrawZeroLine(false);
@@ -358,13 +369,19 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(yVals, "Current Consumption");
         // set1.setFillAlpha(110);
-        // set1.setFillColor(Color.RED);
+         set1.setFillAlpha(110);
+        set1.setValueTextColor(Color.WHITE);
+        set1.setColor(Color.WHITE);
+        set1.setFillColor(Color.WHITE);
+        set1.setHighLightColor(Color.WHITE);
+
+//        set1.setFillColor(Color.WHITE);
 
         // set the line to be drawn like this "- - - - - -"
         set1.enableDashedLine(10f, 5f, 0f);
         set1.enableDashedHighlightLine(10f, 5f, 0f);
-        set1.setColor(Color.BLACK);
-        set1.setCircleColor(Color.BLACK);
+        set1.setColor(Color.WHITE);
+        set1.setCircleColor(Color.WHITE);
         set1.setLineWidth(1f);
         set1.setCircleRadius(3f);
         set1.setDrawCircleHole(false);
@@ -378,6 +395,7 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
 
         // create a data object with the datasets
         LineData data = new LineData(xVals, dataSets);
+        data.setValueTextColor(Color.WHITE);
 
         // set data
         mChart.setData(data);

@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".app.LineChartActivity1"
 
-    <!--<android.support.design.widget.AppBarLayout-->
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+
+<!--<android.support.design.widget.AppBarLayout-->
         <!--android:id="@+id/appbar"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
@@ -40,7 +45,7 @@
         android:layout_marginRight="5dp"
         android:max="200"
         android:paddingBottom="12dp"
-        android:background="@color/white"/>
+        />
 
 
     <SeekBar
@@ -54,7 +59,7 @@
         android:layout_marginRight="5dp"
         android:max="500"
         android:paddingBottom="12dp"
-        android:background="@color/white"/>
+        />
 
     <TextView
         android:id="@+id/tvXMax"
@@ -66,7 +71,8 @@
         android:layout_marginBottom="15dp"
         android:layout_marginRight="10dp"
         android:gravity="right"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/tvYMax"
@@ -78,6 +84,8 @@
         android:layout_marginBottom="15dp"
         android:layout_marginRight="10dp"
         android:gravity="right"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white"
+        />
 
 </RelativeLayout>

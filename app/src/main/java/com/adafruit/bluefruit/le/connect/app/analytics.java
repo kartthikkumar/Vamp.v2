@@ -55,6 +55,15 @@ public class analytics extends AppCompatActivity {
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
+
+
+
+
+
+
+
+
+
         // ********************** UART Communication ******************************
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -104,8 +113,8 @@ public class analytics extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_analytics, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
     }
@@ -124,14 +133,27 @@ public class analytics extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+//            return PlaceholderFragment.newInstance(position + 1);
+
+            switch (position){
+                case 0:
+                    Fragment fragmentPI = new fragmentPI();
+                    return fragmentPI;
+                case 1:
+                    Fragment fragmentLineGraph = new fragmentLineGraph();
+                    return fragmentLineGraph;
+                case 2:
+                    Fragment fragmentAnalytics = new fragmentAnalytics();
+                    return fragmentAnalytics;
+            }
+            return null;
         }
 
 
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 2;
+            return 3;
         }
 
         @Override
@@ -141,10 +163,71 @@ public class analytics extends AppCompatActivity {
                     return "SECTION 1";
                 case 1:
                     return "SECTION 2";
-//                case 2:
-//                    return "SECTION 3";
+                case 2:
+                    return "SECTION 3";
             }
             return null;
+        }
+    }
+
+
+    /**Contacts*/
+    public static class fragmentPI extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        public static final String ARG_SECTION_NUMBER = "section_number";
+
+        public fragmentPI() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.activity_linechart,
+                    container, false);
+            return rootView;
+        }
+    }
+
+    /**Missed Call*/
+    public static class fragmentLineGraph extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        public static final String ARG_SECTION_NUMBER = "section_number";
+
+        public fragmentLineGraph() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.activity_main,
+                    container, false);
+            return rootView;
+        }
+    }
+
+    /**Recent Call*/
+    public static class fragmentAnalytics extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        public static final String ARG_SECTION_NUMBER = "section_number";
+
+        public fragmentAnalytics() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.activity_piechart,
+                    container, false);
+            return rootView;
         }
     }
 
