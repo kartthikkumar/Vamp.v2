@@ -1,6 +1,7 @@
 package com.adafruit.bluefruit.le.connect.app;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,6 +74,7 @@ final class MyAdapter extends BaseAdapter {
         Item item = getItem(i);
 
         picture.setImageResource(item.drawableId);
+        name.setTextColor(Color.WHITE);
         name.setText(item.name);
 
         return v;

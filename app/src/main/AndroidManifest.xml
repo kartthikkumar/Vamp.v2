@@ -37,7 +37,7 @@
         <service android:name="org.eclipse.paho.android.service.MqttService" />
 
         <activity
-            android:name=".app.MainActivity"
+            android:name="com.adafruit.bluefruit.le.connect.app.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="fullUser">
             <intent-filter>
@@ -160,6 +160,14 @@
         <activity
             android:name=".app.ListActivity"
             android:label="@string/title_activity_availableDevices" />
+
+        <activity
+            android:name=".app.LineChartActivity1"
+            android:label="LINE CHARTTTTT" />
+
+        <activity
+            android:name=".app.PieChartActivity"
+            android:label="PIE CHARTTTTT" />
 
 </application>
 

@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("KK", "Hello");
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -46,8 +48,12 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(ListActivity);
                         break;
                     case  1:
-                        Intent ListActivity2 = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
+                        Intent ListActivity2 = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.LineChartActivity1.class);
                         startActivity(ListActivity2);
+                        break;
+                    case  2:
+                        Intent ListActivity3 = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.PieChartActivity.class);
+                        startActivity(ListActivity3);
                         break;
                     default:
                         Intent ListActivityDefault = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
