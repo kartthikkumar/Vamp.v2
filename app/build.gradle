@@ -27,6 +27,13 @@ repositories {
     }
 }
 
+repositories {
+    maven {
+        url "https://jitpack.io"
+    }
+}
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(":dFULibrary")
@@ -37,4 +44,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.4.0'
     compile 'com.larswerkman:HoloColorPicker:1.4'
     compile 'com.android.support:design:23.1.1'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+//    compile 'com.github.PhilJay:MPAndroidChart:v2.2.3'
+
 }

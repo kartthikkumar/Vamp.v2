@@ -27,13 +27,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <!--<com.db.chart.view.BarChartView-->
-        <!--xmlns:chart="http://schemas.android.com/apk/res-auto"-->
-        <!--android:id="@+id/barchart"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="100p"-->
-        <!--chart:chart_barSpacing="5dp"-->
-        <!--/>-->
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"

@@ -1,4 +1,2 @@
-include ':app'
+include ':app', ':MPAndroidChart-2.2.3'
 include ':dFULibrary'
-include ':app', ':william-chart'
-
