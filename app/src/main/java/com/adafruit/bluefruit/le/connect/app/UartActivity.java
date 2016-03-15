@@ -687,7 +687,6 @@ public class UartActivity extends UartInterfaceActivity implements BleManager.Bl
         mReceivedBytesTextView.setText(String.format(getString(R.string.uart_receivedbytes_format), mReceivedBytes));
     }
 
-
     private int mDataBufferLastSize = 0;
 
     private void updateTextDataUI() {

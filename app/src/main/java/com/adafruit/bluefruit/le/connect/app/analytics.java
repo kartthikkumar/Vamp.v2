@@ -1,68 +1,60 @@
 package com.adafruit.bluefruit.le.connect.app;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
-
 import com.adafruit.bluefruit.le.connect.R;
+import com.adafruit.bluefruit.le.connect.app.settings.MqttUartSettingsActivity;
+import com.adafruit.bluefruit.le.connect.mqtt.MqttSettings;
 
 public class analytics extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private TextView switchStatus;
+    private Switch mySwitch;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
-    private ViewPager mViewPager;
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analytics);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        switchStatus = (TextView) findViewById(R.id.switchStatus);
+        mySwitch = (Switch) findViewById(R.id.mySwitch);
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        //set the switch to ON
+        mySwitch.setChecked(true);
+        //attach a listener to check for changes in state
+        mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
 
+                if (isChecked) {
+                    switchStatus.setTextColor(Color.WHITE);
+                    switchStatus.setText("Switch is currently ON");
+                } else {
+                    switchStatus.setTextColor(Color.WHITE);
+                    switchStatus.setText("Switch is currently OFF");
+                }
 
+            }
+        });
 
-
-
-
-
-
+        //check the current state before we display the screen
+        if (mySwitch.isChecked()) {
+            switchStatus.setTextColor(Color.WHITE);
+            switchStatus.setText("Switch is currently ON");
+        } else {
+            switchStatus.setTextColor(Color.WHITE);
+            switchStatus.setText("Switch is currently OFF");
+        }
 
         // ********************** UART Communication ******************************
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -74,161 +66,46 @@ public class analytics extends AppCompatActivity {
             }
         });
         // ***************************************************************
+
+        // Setup the new range seek bar
+        RangeSeekBar<Integer> rangeSeekBar = new RangeSeekBar<Integer>(this);
+        // Set the range
+        rangeSeekBar.setRangeValues(0, 100);
+        rangeSeekBar.setSelectedMinValue(20);
+        rangeSeekBar.setSelectedMaxValue(88);
+
+//        LinearLayout layout = (LinearLayout) findViewById(R.id.seekbar_placeholder);
+//        layout.addView(rangeSeekBar);
+
+//         ********************** PI CHART ******************************
+        FloatingActionButton piechartstart = (FloatingActionButton) findViewById(R.id.piechartstart);
+        piechartstart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startPIChart = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.PieChartActivity.class);
+                startActivity(startPIChart);
+            }
+        });
+//         ***************************************************************
+
+
+        // ********************** Line Graph ******************************
+        FloatingActionButton linegraphstart = (FloatingActionButton) findViewById(R.id.linegraphstart);
+        linegraphstart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startLineGraph = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.LineChartActivity1.class);
+                startActivity(startLineGraph);
+            }
+        });
+        // ***************************************************************
     }
 
-
-    @Override
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_analytics, menu);
+        getMenuInflater().inflate(R.menu.menu_analytics, menu);
         return true;
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
-
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_analytics, container, false);
-//            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-//            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
-
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-//            return PlaceholderFragment.newInstance(position + 1);
-
-            switch (position){
-                case 0:
-                    Fragment fragmentPI = new fragmentPI();
-                    return fragmentPI;
-                case 1:
-                    Fragment fragmentLineGraph = new fragmentLineGraph();
-                    return fragmentLineGraph;
-                case 2:
-                    Fragment fragmentAnalytics = new fragmentAnalytics();
-                    return fragmentAnalytics;
-            }
-            return null;
-        }
-
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
-            }
-            return null;
-        }
-    }
-
-
-    /**Contacts*/
-    public static class fragmentPI extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        public static final String ARG_SECTION_NUMBER = "section_number";
-
-        public fragmentPI() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.activity_linechart,
-                    container, false);
-            return rootView;
-        }
-    }
-
-    /**Missed Call*/
-    public static class fragmentLineGraph extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        public static final String ARG_SECTION_NUMBER = "section_number";
-
-        public fragmentLineGraph() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.activity_main,
-                    container, false);
-            return rootView;
-        }
-    }
-
-    /**Recent Call*/
-    public static class fragmentAnalytics extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        public static final String ARG_SECTION_NUMBER = "section_number";
-
-        public fragmentAnalytics() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.activity_piechart,
-                    container, false);
-            return rootView;
-        }
     }
 
 }

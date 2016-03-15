@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-
 import com.adafruit.bluefruit.le.connect.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,9 +18,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d("KK", "Hello");
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
 
         // ********************** BLE Search ******************************
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -48,23 +44,21 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(ListActivity);
                         break;
                     case  1:
-                        Intent ListActivity2 = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.LineChartActivity1.class);
-                        startActivity(ListActivity2);
+//                        Intent ListActivity2 = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.LineChartActivity1.class);
+//                        startActivity(ListActivity2);
                         break;
                     case  2:
-                        Intent ListActivity3 = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.PieChartActivity.class);
-                        startActivity(ListActivity3);
+//                        Intent ListActivity3 = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.PieChartActivity.class);
+//                        startActivity(ListActivity3);
                         break;
                     default:
-                        Intent ListActivityDefault = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
-                        startActivity(ListActivityDefault);
+//                        Intent ListActivityDefault = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
+//                        startActivity(ListActivityDefault);
                         break;
                 }
             }
         });
         // ***************************************************************
-
-
     }
 
 }

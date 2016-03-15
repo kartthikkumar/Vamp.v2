@@ -363,6 +363,8 @@
     <string name="title_activity_availableDevices">Available Devices</string>
 
     <color name="white">#FFFFFF</color>
+    <string name="min_label">Min</string>
+    <string name="max_label">Max</string>
 
 
     <!-- Debug -->

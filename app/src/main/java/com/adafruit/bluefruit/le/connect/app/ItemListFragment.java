@@ -3,12 +3,11 @@ package com.adafruit.bluefruit.le.connect.app;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import com.adafruit.bluefruit.le.connect.app.analytics;
+
 import com.adafruit.bluefruit.le.connect.R;
 
 import java.util.ArrayList;
@@ -47,16 +46,12 @@ final public class ItemListFragment extends ListFragment {
 
         switch (position) {
             case 0:
-                Intent startAnalytics = new Intent(getActivity().getApplicationContext(), analytics.class);
-                startActivity(startAnalytics);
-                break;
-            case  1:
-                Intent startAnalytics2 = new Intent(getActivity().getApplicationContext(), analytics.class);
-                startActivity(startAnalytics2);
-                break;
+//                Intent analyticsMain = new Intent(getActivity().getApplicationContext(), analytics.class);
+//                startActivity(analyticsMain);
+//                break;
             default:
-                Intent startAnalyticsDefault = new Intent(getActivity().getApplicationContext(), analytics.class);
-                startActivity(startAnalyticsDefault);
+                Intent analyticsMain = new Intent(getActivity().getApplicationContext(), analytics.class);
+                startActivity(analyticsMain);
                 break;
         }
     }

@@ -26,7 +26,7 @@
         android:layout_alignParentBottom="true"
         android:background="#000000"
         android:onClick="onClickScan"
-        android:textColor="#ffffff"/>
+        android:textColor="@color/white" />
 
     <TextView
         android:id="@+id/nodevicesTextView"
@@ -35,7 +35,7 @@
         android:layout_marginTop="60dp"
         android:gravity="center_horizontal"
         android:text="@string/scan_nodevicesfound"
-        android:textColor="@drawable/default_textcolor"/>
+        android:textColor="@color/white" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -59,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
                     android:text="@string/scan_devicesheadertitle"
-                    android:textColor="@drawable/default_textcolor"/>
+                    android:textColor="@color/white"/>
 
                 <com.adafruit.bluefruit.le.connect.ui.utils.ExpandableHeightExpandableListView
                     android:id="@+id/scannedDevicesListView"
