@@ -169,6 +169,9 @@
 
         <activity android:name=".app.analytics"
             android:label="Device Analytics" />
+
+        <activity android:name=".app.sendUART" />
+
     </application>
 
 </manifest>

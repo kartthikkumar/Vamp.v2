@@ -13,12 +13,16 @@ import android.widget.Switch;
 import android.widget.TextView;
 import com.adafruit.bluefruit.le.connect.R;
 import com.adafruit.bluefruit.le.connect.app.settings.MqttUartSettingsActivity;
+import com.adafruit.bluefruit.le.connect.ble.BleManager;
 import com.adafruit.bluefruit.le.connect.mqtt.MqttSettings;
 
-public class analytics extends AppCompatActivity {
+public class analytics extends UartInterfaceActivity {
 
     private TextView switchStatus;
     private Switch mySwitch;
+
+    protected BleManager mBleManager;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,12 +40,21 @@ public class analytics extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
 
+        analytics a = new analytics();
+                mUartService = mBleManager.getGattService(UUID_SERVICE);
+                mBleManager.enableNotification(mUartService, UUID_RX, true);
+
+
                 if (isChecked) {
                     switchStatus.setTextColor(Color.WHITE);
                     switchStatus.setText("Switch is currently ON");
+                    a.sendData("ONHELLO");
+
                 } else {
                     switchStatus.setTextColor(Color.WHITE);
                     switchStatus.setText("Switch is currently OFF");
+//                    Intent sendOFF = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.sendUART.class);
+//                    startActivity(sendOFF);
                 }
 
             }
