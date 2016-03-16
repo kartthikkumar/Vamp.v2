@@ -326,7 +326,7 @@ public class UartActivity extends UartInterfaceActivity implements BleManager.Bl
         uartSendData(data, false);
     }
 
-    private void uartSendData(String data, boolean wasReceivedFromMqtt) {
+    public void uartSendData(String data, boolean wasReceivedFromMqtt) {
         // MQTT publish to TX
         MqttSettings settings = MqttSettings.getInstance(UartActivity.this);
         if (!wasReceivedFromMqtt) {

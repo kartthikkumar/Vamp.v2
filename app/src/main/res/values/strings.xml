@@ -2,8 +2,9 @@
 <resources>
 
     <!-- General -->
-    <string name="app_name">VAMP: Smart Outlet</string>
+    <string name="app_name">VAMP</string>
     <string name="app_icon_name">VAMP</string>
+    <string name="app_main_name">VAMP: Smart Outlet</string>
     <string name="app_full_name">VAMP BLE Connect</string>
     <string name="action_info">Info</string>
     <string name="action_mqttsettings">MQTT</string>
@@ -22,7 +23,7 @@
     <string name="dialog_error_nolocationservices_requiredforscan_marshmallow">Android 6 requires that Location Services are enabled to scan bluetooth peripherals.\nPlease, go to settings and enable it to start scanning peripherals</string>
 
     <!-- Scan Activity -->
-    <string name="scan_scanbutton_scan">Scan for peripherals</string>
+    <string name="scan_scanbutton_scan">Scan for Peripherals</string>
     <string name="scan_scanbutton_scanning">Scanning…</string>
     <string name="scan_devicesheadertitle">PERIPHERALS</string>
     <string name="scan_nodevicesfound">No peripherals found</string>
@@ -362,9 +363,10 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_availableDevices">Available Devices</string>
 
-    <color name="white">#FFFFFF</color>
+    <color name="white">#FFFFFFFF</color>
     <string name="min_label">Min</string>
     <string name="max_label">Max</string>
+    <string name="seekbar_label">Dimming Capabilities</string>
 
 
     <!-- Debug -->

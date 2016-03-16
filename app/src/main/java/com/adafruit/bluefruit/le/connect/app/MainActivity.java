@@ -43,17 +43,9 @@ public class MainActivity extends AppCompatActivity {
                         Intent ListActivity = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
                         startActivity(ListActivity);
                         break;
-                    case  1:
-//                        Intent ListActivity2 = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.LineChartActivity1.class);
-//                        startActivity(ListActivity2);
-                        break;
-                    case  2:
-//                        Intent ListActivity3 = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.PieChartActivity.class);
-//                        startActivity(ListActivity3);
-                        break;
                     default:
-//                        Intent ListActivityDefault = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
-//                        startActivity(ListActivityDefault);
+                        Intent ListActivityDefault = new Intent(MainActivity.this, com.adafruit.bluefruit.le.connect.app.ListActivity.class);
+                        startActivity(ListActivityDefault);
                         break;
                 }
             }

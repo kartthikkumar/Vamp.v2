@@ -12,6 +12,7 @@ import android.bluetooth.BluetoothGattService;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -753,6 +754,7 @@ public class BLE_MainActivity extends AppCompatActivity implements BleManager.Bl
         // Scan button
         boolean isScanning = mScanner != null && mScanner.isScanning();
         mScanButton.setText(getString(isScanning ? R.string.scan_scanbutton_scanning : R.string.scan_scanbutton_scan));
+        mScanButton.setTextColor(Color.WHITE);
 
         // Show list and hide "no devices" label
         final boolean isListEmpty = mScannedDevices == null || mScannedDevices.size() == 0;
@@ -991,7 +993,7 @@ public class BLE_MainActivity extends AppCompatActivity implements BleManager.Bl
     // endregion
 
     // region Helpers
-    private class BluetoothDeviceData {
+    public class BluetoothDeviceData {
         public BluetoothDevice device;
         public int rssi;
         public byte[] scanRecord;

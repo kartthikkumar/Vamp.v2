@@ -196,10 +196,11 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
         for (int i = 0; i < count + 1; i++)
             xVals.add(mParties[i % mParties.length]);
 
-        PieDataSet dataSet = new PieDataSet(yVals1, "Election Results");
+        PieDataSet dataSet = new PieDataSet(yVals1, "New Device");
+
+        dataSet.setColor(Color.WHITE);
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
-        dataSet.setColor(Color.WHITE);
 
         // add a lot of colors
 
@@ -240,9 +241,9 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
 
     private SpannableString generateCenterSpannableText() {
 
-        SpannableString s = new SpannableString("Leakage Current");
-        s.setSpan(new ForegroundColorSpan(Color.WHITE), 0, 15, 0);
-        s.setSpan(new RelativeSizeSpan(1.7f), 0, 15, 0);
+        SpannableString s = new SpannableString("Power Usage");
+        s.setSpan(new ForegroundColorSpan(Color.WHITE), 0, 11, 0);
+        s.setSpan(new RelativeSizeSpan(1.5f), 0, 11, 0);
 //        s.setSpan(new StyleSpan(Typeface.NORMAL), 20, s.length() - 15, 0);
 //        s.setSpan(new ForegroundColorSpan(Color.WHITE), 0, 20, 0);
 //        s.setSpan(new RelativeSizeSpan(.8f), 14, s.length() - 15, 0);

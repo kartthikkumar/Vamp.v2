@@ -24,7 +24,6 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/mySwitch"
         android:layout_marginTop="22dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/white"/>
 
     <com.adafruit.bluefruit.le.connect.app.RangeSeekBar
@@ -41,37 +40,38 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/seekbar_placeholder"
-        android:text="Chad wants to control dimming. Chad is a doodoo."
-        android:textColor="@color/white"
+        android:text="@string/seekbar_label"
         />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_below="@+id/seekbar_text"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/stat_sys_data_bluetooth"
-        android:onClick="startUARTActivity"  />
+        android:onClick="startUARTActivity"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:src="@drawable/schedule"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
 
-        <android.support.design.widget.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/linegraphstart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/stat_sys_speakerphone"
+        android:src="@drawable/pie"
         android:onClick="startLineGraph"  />
 
-        <android.support.design.widget.FloatingActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/piechartstart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/stat_sys_download"
+        android:src="@drawable/line"
         android:onClick="startPIChart" />
 </RelativeLayout>
