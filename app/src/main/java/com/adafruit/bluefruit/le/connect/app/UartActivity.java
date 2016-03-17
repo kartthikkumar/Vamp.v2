@@ -14,6 +14,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -43,6 +44,7 @@ import com.adafruit.bluefruit.le.connect.mqtt.MqttSettings;
 
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -69,6 +71,7 @@ public class UartActivity extends UartInterfaceActivity implements BleManager.Bl
     private final static String kPreferences_echo = "echo";
     private final static String kPreferences_asciiMode = "ascii";
     private final static String kPreferences_timestampDisplayMode = "timestampdisplaymode";
+
 
     // Colors
     private int mTxColor;
@@ -632,6 +635,17 @@ public class UartActivity extends UartInterfaceActivity implements BleManager.Bl
                 final UartDataChunk dataChunk = new UartDataChunk(System.currentTimeMillis(), UartDataChunk.TRANSFERMODE_RX, data);
                 mDataBuffer.add(dataChunk);
                 final String formattedData = mShowDataInHexFormat ? asciiToHex(data) : data;
+
+                SharedPreferences settings2 = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = settings2.edit();
+                editor.putString("myRXValue", data);
+                editor.apply();
+
+//                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPref.edit();
+//                editor.putString("myRXValue", data);
+//                editor.apply();
+
 
                 runOnUiThread(new Runnable() {
                     @Override
