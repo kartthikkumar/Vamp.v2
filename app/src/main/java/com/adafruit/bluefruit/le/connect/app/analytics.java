@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -33,52 +34,40 @@ import com.adafruit.bluefruit.le.connect.ble.BleManager;
 
 import java.util.Calendar;
 
-public class analytics extends UartInterfaceActivity implements BleManager.BleManagerListener {
+public class analytics<T extends Number> extends UartInterfaceActivity implements BleManager.BleManagerListener  {
 
-    // BLE
+        // BLE
     private final static String TESTBLAH = analytics.class.getSimpleName();
     private AlertDialog mConnectingDialog;
     protected BLE_MainActivity mBleActivity;
-//    protected BleManager mBleManager;
-//    protected BluetoothGattService mUartService;
+    private RangeSeekBar.OnRangeSeekBarChangeListener<T> listener;
+
 
     // SWITCH
     private TextView switchStatus;
     private TextView rangeSeekBartext;
     private Switch mySwitch;
 
+    private RangeSeekBar<Integer> rangeSeekBar;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analytics);
 
-        // Continue
-        onServicesDiscovered();
         mBleManager = BleManager.getInstance(this);
+        onServicesDiscovered();
 
         rangeSeekBartext = (TextView) findViewById(R.id.seekbar_text);
 
-
         switchStatus = (TextView) findViewById(R.id.switchStatus);
         mySwitch = (Switch) findViewById(R.id.mySwitch);
-
-        //set the switch to ON
+        // Switch ON
         mySwitch.setChecked(true);
         //attach a listener to check for changes in state
         mySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
             @Override
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
-
-                // ********************** BLE Communication ******************************
-
-                mUartService = mBleManager.getGattService(UUID_SERVICE);
-                mBleManager.enableNotification(mUartService, UUID_RX, true);
-                boolean valueRSSI = mBleManager.readRssi();
-                Log.v("RSSI", Boolean.toString(valueRSSI));
-//                BLE_MainActivity.BluetoothDeviceData deviceData = mBluetoothDevices.get(groupPosition);
-
-                // ********************** BLE Communication ******************************
 
                 if (isChecked) {
                     switchStatus.setTextColor(Color.WHITE);
@@ -105,6 +94,21 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             switchStatus.setText("Switch is currently OFF");
         }
 
+
+        // ********************** SeekBar ******************************
+        rangeSeekBartext.setTextColor(Color.WHITE);
+        rangeSeekBar = new RangeSeekBar<Integer>(this);
+
+        // Range
+        rangeSeekBar.setRangeValues(0, 100);
+        int maxValue = rangeSeekBar.getSelectedMaxValue();
+        String maxValueString = String.valueOf(maxValue);
+        sendData(maxValueString);
+        Log.d(TESTBLAH, "Sending MaxValueString");
+
+        // ***************************************************************
+
+
         // ********************** Scheduling ******************************
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -116,18 +120,6 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         });
         // ***************************************************************
 
-        // Setup the new range seek bar
-        rangeSeekBartext.setTextColor(Color.WHITE);
-        RangeSeekBar<Integer> rangeSeekBar = new RangeSeekBar<Integer>(this);
-        // Set the range
-        rangeSeekBar.setRangeValues(0, 100);
-        int maxValue = rangeSeekBar.getSelectedMaxValue();
-        int minValue = rangeSeekBar.getSelectedMinValue();
-        sendData(Integer.toString(maxValue));
-        sendData(Integer.toString(minValue));
-
-//        rangeSeekBar.setSelectedMinValue(20);
-//        rangeSeekBar.setSelectedMaxValue(88);
 
 //         ********************** PI CHART ******************************
         FloatingActionButton piechartstart = (FloatingActionButton) findViewById(R.id.piechartstart);
@@ -166,7 +158,14 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         // ***************************************************************
     }
 
-        @Override
+
+
+//    public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, T minValue, T maxValue){
+//int newValue = maxValue;
+//    }
+
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.menu_analytics, menu);
@@ -227,8 +226,10 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 
     @Override
     public void onServicesDiscovered() {
-//        Log.d(TESTBLAH, "services discovered");
+        mUartService = mBleManager.getGattService(UUID_SERVICE);
+        mBleManager.enableNotification(mUartService, UUID_RX, true);
     }
+
 
     @Override
     public void onDataAvailable(BluetoothGattCharacteristic characteristic) {

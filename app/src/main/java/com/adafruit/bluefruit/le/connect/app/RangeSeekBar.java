@@ -84,7 +84,7 @@ public class RangeSeekBar<T extends Number> extends ImageView {
     private double normalizedMinValue = 0d;
     private double normalizedMaxValue = 1d;
     private Thumb pressedThumb = null;
-    private boolean notifyWhileDragging = false;
+    private boolean notifyWhileDragging = true;
     private OnRangeSeekBarChangeListener<T> listener;
     /**
      * Default color of a {@link com.adafruit.bluefruit.le.connect.app.RangeSeekBar}, #FF33B5E5. This is also known as "Ice Cream Sandwich" blue.

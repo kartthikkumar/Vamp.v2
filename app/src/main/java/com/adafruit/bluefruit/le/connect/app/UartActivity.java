@@ -616,7 +616,6 @@ public class UartActivity extends UartInterfaceActivity implements BleManager.Bl
     @Override
     public void onServicesDiscovered() {
         mUartService = mBleManager.getGattService(UUID_SERVICE);
-
         mBleManager.enableNotification(mUartService, UUID_RX, true);
     }
 
