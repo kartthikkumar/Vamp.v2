@@ -33,7 +33,6 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="25dp"
         android:layout_below="@+id/switchStatus"
-        android:text="@string/seekbar_label"
         />
 
     <SeekBar
@@ -41,6 +40,16 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/seekbar_text" />
+
+    <TextView
+        android:id="@+id/dimmingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekbar_placeholder"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:text="@string/seekbar_label"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/scheduling"

@@ -1,5 +1,7 @@
 package com.adafruit.bluefruit.le.connect.app;
 
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothGatt;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -34,19 +36,20 @@ import com.adafruit.bluefruit.le.connect.mqtt.MqttSettings;
 
 import com.adafruit.bluefruit.le.connect.ble.BleManager;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class analytics extends UartInterfaceActivity implements BleManager.BleManagerListener  {
 
-        // BLE
+    // BLE
     private final static String TESTBLAH = analytics.class.getSimpleName();
     private AlertDialog mConnectingDialog;
-    protected BLE_MainActivity mBleActivity;
-
+    protected BLE_MainActivity mBLEActivity;
 
     // SWITCH & SEEKBAR
     private TextView switchStatus;
     private TextView rangeSeekBartext;
+    private TextView dimmingText;
     private Switch mySwitch;
     private SeekBar dimSettings;
 
@@ -54,14 +57,32 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analytics);
 
+        // DO NOT TOUCH
         mBleManager = BleManager.getInstance(this);
         onServicesDiscovered();
 
         rangeSeekBartext = (TextView) findViewById(R.id.seekbar_text);
-
+        dimmingText = (TextView) findViewById(R.id.dimmingText);
+        dimmingText.setTextColor(Color.WHITE);
 
         switchStatus = (TextView) findViewById(R.id.switchStatus);
         mySwitch = (Switch) findViewById(R.id.mySwitch);
+
+        // ********************** RSSI ******************************
+
+        boolean trueorfalse = mBleManager.readRssi();
+        Log.d("RSSI", Boolean.toString(trueorfalse));
+
+        BLE_MainActivity.BluetoothDeviceData mSelectedDeviceData;
+
+        int doodoo = mSelectedDeviceData.rssi;
+        Log.d("RSSI VALUE", Integer.toString(doodoo));
+
+        // ***************************************************************
+
+
+
+        // ********************** Switch ******************************
         // Switch ON
         mySwitch.setChecked(true);
         //attach a listener to check for changes in state
@@ -94,6 +115,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             switchStatus.setTextColor(Color.WHITE);
             switchStatus.setText("Switch is currently OFF");
         }
+        // ***************************************************************
 
 
         // ********************** SeekBar ******************************
@@ -117,9 +139,37 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             public void onProgressChanged(SeekBar seekBar, int progress,
                                           boolean fromUser) {
                 rangeSeekBartext.setTextColor(Color.WHITE);
-                rangeSeekBartext.setText(String.valueOf(progress));
-                Log.d(TESTBLAH, "Dimming Setting" + progress);
+                    rangeSeekBartext.setText(String.valueOf(progress));
+                    Log.d(TESTBLAH, "Dimming Setting: " + progress);
 
+                if (progress == 0) {
+                    progress = 0;
+                    sendData(String.valueOf(progress));
+                } else if (progress <= 12.5) {
+                    progress = 1;
+                    sendData(String.valueOf(progress));
+                } else if (progress <= 25) {
+                    progress = 2;
+                    sendData(String.valueOf(progress));
+                } else if (progress <= 37.5) {
+                    progress = 3;
+                    sendData(String.valueOf(progress));
+                } else if (progress <= 50) {
+                    progress = 4;
+                    sendData(String.valueOf(progress));
+                } else if (progress <= 62.5) {
+                    progress = 5;
+                    sendData(String.valueOf(progress));
+                } else if (progress <= 75) {
+                    progress = 6;
+                    sendData(String.valueOf(progress));
+                } else if (progress <= 87.5) {
+                    progress = 7;
+                    sendData(String.valueOf(progress));
+                } else {
+                    progress = 8;
+                    sendData(String.valueOf(progress));
+                }
             }
         });
         // ***************************************************************
@@ -159,7 +209,6 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             }
         });
         // ***************************************************************
-
 
 
         // ********************** UART TEMP ******************************

@@ -91,7 +91,7 @@ public class BLE_MainActivity extends AppCompatActivity implements BleManager.Bl
     private FirmwareUpdater mFirmwareUpdater;
 
     private ArrayList<BluetoothDeviceData> mScannedDevices;
-    private BluetoothDeviceData mSelectedDeviceData;
+    public BluetoothDeviceData mSelectedDeviceData;
     private Class<?> mComponentToStartWhenConnected;
     private boolean mShouldEnableWifiOnQuit = false;
     private String mLatestCheckedDeviceAddress;
