@@ -96,29 +96,6 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 
 
         // ********************** RSSI ******************************
-            // ********************** READING ******************************
-
-        boolean rssiBoolean = mBleManager.readRssi();
-        Log.d("RSSI", Boolean.toString(rssiBoolean));
-
-        int rssiValue = BleManager.rssiReading;
-        sendData(Integer.toString(BleManager.rssiReading));
-        Log.d("RSSI", Integer.toString(BleManager.rssiReading));
-
-        tView = (TextView) findViewById(R.id.rssiValue);
-        tView.setTextColor(Color.WHITE);
-        clickhere = (Button) findViewById(R.id.rssiButton);
-        clickhere.setTextColor(Color.WHITE);
-
-        clickhere.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            mBleManager.readRssi();
-            String display = Integer.toString(BleManager.rssiReading);
-            tView.setText(display);
-            }
-        });
-
-            // ********************** READING ******************************
 
             //        int index;
             //        if (rssiValue == 127 || rssiValue <= -84) {   // 127 reserved for RSSI not available
@@ -133,10 +110,10 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             //            index = 4;
             //        }
 
-            // ***************************************************************
+        // ***************************************************************
 
 
-            // ********************** Switch ******************************
+            // ********************** Toggle Device ******************************
             // Switch ON
             mySwitch.setChecked(true);
             //attach a listener to check for changes in state
@@ -177,7 +154,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 
 
 
-        // ********************** Second Switch ******************************
+        // ********************** Toggle State ******************************
         // Second Switch ON
         mySecondSwitch.setChecked(true);
         //attach a listener to check for changes in state
@@ -189,14 +166,12 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                 if (isChecked) {
                     switchSecondStatus.setTextColor(Color.WHITE);
                     switchSecondStatus.setText("RSSI Active");
-                    sendData("TURN ON \n");
-                    Log.d(TESTBLAH, "Passed sendData");
+                    rssiReading();
 
                 } else {
                     switchSecondStatus.setTextColor(Color.WHITE);
                     switchSecondStatus.setText("Dimming Active");
-                    sendData("TURN OFF \n");
-                    Log.d(TESTBLAH, "Passed receiveData");
+                    seekBarReading();
                 }
             }
         });
@@ -205,18 +180,96 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         if (mySecondSwitch.isChecked()) {
             switchSecondStatus.setTextColor(Color.WHITE);
             switchSecondStatus.setText("RSSI Active");
-            sendData("Default ON \n");
-            Log.d(TESTBLAH, "Default ON");
+            rssiReading();
+
         } else {
             switchSecondStatus.setTextColor(Color.WHITE);
             switchSecondStatus.setText("Dimming Active");
-            sendData("Default OFF \n");
-            Log.d(TESTBLAH, "Default OFF");
+            seekBarReading();
         }
         // ***************************************************************
 
 
+            // ********************** Scheduling ******************************
+            FloatingActionButton scheduling = (FloatingActionButton) findViewById(R.id.scheduling);
+            scheduling.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent startScheduling = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.AlarmActivity.class);
+                    startActivity(startScheduling);
+                }
+            });
+            // ***************************************************************
 
+
+//         ********************** PI CHART ******************************
+            FloatingActionButton piechartstart = (FloatingActionButton) findViewById(R.id.piechartstart);
+            piechartstart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent startPIChart = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.PieChartActivity.class);
+                    startActivity(startPIChart);
+                }
+            });
+//         ***************************************************************
+
+
+            // ********************** Line Graph ******************************
+            FloatingActionButton linegraphstart = (FloatingActionButton) findViewById(R.id.linegraphstart);
+            linegraphstart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent startLineGraph = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.LineChartActivity1.class);
+                    startActivity(startLineGraph);
+                }
+            });
+            // ***************************************************************
+
+
+            // ********************** UART TEMP ******************************
+            FloatingActionButton uartTEMP = (FloatingActionButton) findViewById(R.id.uartTEMP);
+            uartTEMP.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent startUART = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.UartActivity.class);
+                    startActivity(startUART);
+                }
+            });
+            // ***************************************************************
+        }
+
+        // ********************** READING ******************************
+        public void rssiReading(){
+
+        boolean rssiBoolean = mBleManager.readRssi();
+        Log.d("RSSI", Boolean.toString(rssiBoolean));
+
+        int rssiValue = BleManager.rssiReading;
+        sendData(Integer.toString(BleManager.rssiReading));
+        Log.d("RSSI", Integer.toString(BleManager.rssiReading));
+
+        tView = (TextView) findViewById(R.id.rssiValue);
+        tView.setTextColor(Color.WHITE);
+        clickhere = (Button) findViewById(R.id.rssiButton);
+        clickhere.setTextColor(Color.WHITE);
+
+        clickhere.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                mBleManager.readRssi();
+                String display = Integer.toString(BleManager.rssiReading);
+                tView.setText(display);
+                sendData(display);
+                Log.d(TESTBLAH, "Toggle Switched with sendData" + display);
+
+
+            }
+        });
+        // ********************** READING ******************************
+    }
+
+
+        public void seekBarReading()
+        {
             // ********************** SeekBar ******************************
             dimSettings = (SeekBar) findViewById(R.id.seekbar_placeholder);
             dimSettings.setMax(100);
@@ -272,56 +325,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                 }
             });
             // ***************************************************************
-
-
-            // ********************** Scheduling ******************************
-            FloatingActionButton scheduling = (FloatingActionButton) findViewById(R.id.scheduling);
-            scheduling.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent startScheduling = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.AlarmActivity.class);
-                    startActivity(startScheduling);
-                }
-            });
-            // ***************************************************************
-
-
-//         ********************** PI CHART ******************************
-            FloatingActionButton piechartstart = (FloatingActionButton) findViewById(R.id.piechartstart);
-            piechartstart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent startPIChart = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.PieChartActivity.class);
-                    startActivity(startPIChart);
-                }
-            });
-//         ***************************************************************
-
-
-            // ********************** Line Graph ******************************
-            FloatingActionButton linegraphstart = (FloatingActionButton) findViewById(R.id.linegraphstart);
-            linegraphstart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent startLineGraph = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.LineChartActivity1.class);
-                    startActivity(startLineGraph);
-                }
-            });
-            // ***************************************************************
-
-
-            // ********************** UART TEMP ******************************
-            FloatingActionButton uartTEMP = (FloatingActionButton) findViewById(R.id.uartTEMP);
-            uartTEMP.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent startUART = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.UartActivity.class);
-                    startActivity(startUART);
-                }
-            });
-            // ***************************************************************
         }
-
 
         @Override
         public boolean onCreateOptionsMenu (Menu menu){
