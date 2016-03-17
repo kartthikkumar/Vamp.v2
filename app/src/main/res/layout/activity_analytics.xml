@@ -7,8 +7,7 @@
     android:padding="5dp"
     android:background="#000000">
 
-
-<Switch
+    <Switch
         android:id="@+id/mySwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,52 +26,54 @@
         android:layout_marginTop="22dp"
         android:textColor="@color/white"/>
 
-    <com.adafruit.bluefruit.le.connect.app.RangeSeekBar
-        android:id="@+id/seekbar_placeholder"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/switchStatus"
-        rsb:singleThumb="true" />
-
     <TextView
         android:id="@+id/seekbar_text"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/seekbar_placeholder"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:layout_below="@+id/switchStatus"
         android:text="@string/seekbar_label"
         />
 
+    <SeekBar
+        android:id="@+id/seekbar_placeholder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekbar_text" />
+
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/scheduling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="startUARTActivity"
+        android:onClick="startScheduling"
         android:layout_marginLeft="@dimen/fab_margin"
         android:layout_marginRight="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginTop="16dp"
         android:src="@drawable/schedule"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/linegraphstart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/pie"
-        android:onClick="startLineGraph"  />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/piechartstart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/pie"
+        android:onClick="startPIChart"  />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/linegraphstart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/line"
-        android:onClick="startPIChart" />
+        android:onClick="startLineChart" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/uartTEMP"
@@ -82,5 +83,5 @@
         android:layout_centerInParent="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/stat_sys_data_bluetooth"
-        android:onClick="startScheduling" />
+        android:onClick="startUART" />
 </RelativeLayout>

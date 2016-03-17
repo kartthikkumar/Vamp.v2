@@ -1,5 +1,6 @@
 package com.adafruit.bluefruit.le.connect.app;
 
+import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -34,21 +36,19 @@ import com.adafruit.bluefruit.le.connect.ble.BleManager;
 
 import java.util.Calendar;
 
-public class analytics<T extends Number> extends UartInterfaceActivity implements BleManager.BleManagerListener  {
+public class analytics extends UartInterfaceActivity implements BleManager.BleManagerListener  {
 
         // BLE
     private final static String TESTBLAH = analytics.class.getSimpleName();
     private AlertDialog mConnectingDialog;
     protected BLE_MainActivity mBleActivity;
-    private RangeSeekBar.OnRangeSeekBarChangeListener<T> listener;
 
 
-    // SWITCH
+    // SWITCH & SEEKBAR
     private TextView switchStatus;
     private TextView rangeSeekBartext;
     private Switch mySwitch;
-
-    private RangeSeekBar<Integer> rangeSeekBar;
+    private SeekBar dimSettings;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +58,7 @@ public class analytics<T extends Number> extends UartInterfaceActivity implement
         onServicesDiscovered();
 
         rangeSeekBartext = (TextView) findViewById(R.id.seekbar_text);
+
 
         switchStatus = (TextView) findViewById(R.id.switchStatus);
         mySwitch = (Switch) findViewById(R.id.mySwitch);
@@ -96,22 +97,37 @@ public class analytics<T extends Number> extends UartInterfaceActivity implement
 
 
         // ********************** SeekBar ******************************
-        rangeSeekBartext.setTextColor(Color.WHITE);
-        rangeSeekBar = new RangeSeekBar<Integer>(this);
+        dimSettings = (SeekBar) findViewById(R.id.seekbar_placeholder);
+        dimSettings.setMax(100);
+        dimSettings.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-        // Range
-        rangeSeekBar.setRangeValues(0, 100);
-        int maxValue = rangeSeekBar.getSelectedMaxValue();
-        String maxValueString = String.valueOf(maxValue);
-        sendData(maxValueString);
-        Log.d(TESTBLAH, "Sending MaxValueString");
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
 
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,
+                                          boolean fromUser) {
+                rangeSeekBartext.setTextColor(Color.WHITE);
+                rangeSeekBartext.setText(String.valueOf(progress));
+                Log.d(TESTBLAH, "Dimming Setting" + progress);
+
+            }
+        });
         // ***************************************************************
 
 
         // ********************** Scheduling ******************************
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton scheduling = (FloatingActionButton) findViewById(R.id.scheduling);
+        scheduling.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent startScheduling = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.AlarmActivity.class);
@@ -151,19 +167,12 @@ public class analytics<T extends Number> extends UartInterfaceActivity implement
         uartTEMP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startScheduling = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.UartActivity.class);
-                startActivity(startScheduling);
+                Intent startUART = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.UartActivity.class);
+                startActivity(startUART);
             }
         });
         // ***************************************************************
     }
-
-
-
-//    public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, T minValue, T maxValue){
-//int newValue = maxValue;
-//    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -242,6 +251,5 @@ public class analytics<T extends Number> extends UartInterfaceActivity implement
     @Override
     public void onReadRemoteRssi(int rssi) {
     }
-
     // **************************  End Of Region BleManagerListener ************************
 }
