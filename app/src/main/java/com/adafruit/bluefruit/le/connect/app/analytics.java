@@ -70,13 +70,43 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 
         // ********************** RSSI ******************************
 
-        boolean trueorfalse = mBleManager.readRssi();
-        Log.d("RSSI", Boolean.toString(trueorfalse));
+        boolean rssiBoolean = mBleManager.readRssi();
+        Log.d("RSSI", Boolean.toString(rssiBoolean));
 
-        BLE_MainActivity.BluetoothDeviceData mSelectedDeviceData;
+        int rssiValue = BleManager.rssiReading;
+        sendData(Integer.toString(BleManager.rssiReading));
+        Log.d("RSSI", Integer.toString(BleManager.rssiReading));
 
-        int doodoo = mSelectedDeviceData.rssi;
-        Log.d("RSSI VALUE", Integer.toString(doodoo));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        int index;
+//        if (rssiValue == 127 || rssiValue <= -84) {   // 127 reserved for RSSI not available
+//            index = 0;
+//        } else if (rssiValue <= -72) {
+//            index = 1;
+//        } else if (rssiValue <= -60) {
+//            index = 2;
+//        } else if (rssiValue <= -48) {
+//            index = 3;
+//        } else {
+//            index = 4;
+//        }
 
         // ***************************************************************
 

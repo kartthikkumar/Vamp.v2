@@ -27,6 +27,8 @@ public class BleManager implements BleGattExecutor.BleExecutorListener {
     public static final int STATE_CONNECTING = 1;
     public static final int STATE_CONNECTED = 2;
 
+    public static int rssiReading = 0;
+
     // Singleton
     private static BleManager mInstance = null;
 
@@ -456,6 +458,8 @@ public class BleManager implements BleGattExecutor.BleExecutorListener {
     @Override
     public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
         if (mBleListener != null) {
+            rssiReading = rssi;
+            Log.d(TAG, "Remote RSSI: "+ rssi);
             mBleListener.onReadRemoteRssi(rssi);
         }
 
