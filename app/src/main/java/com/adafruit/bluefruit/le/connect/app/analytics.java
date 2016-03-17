@@ -65,9 +65,11 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 
     // SWITCH & SEEKBAR
     private TextView switchStatus;
+    private TextView switchSecondStatus;
     private TextView rangeSeekBartext;
     private TextView dimmingText;
     private Switch mySwitch;
+    private Switch mySecondSwitch;
     private SeekBar dimSettings;
 
     int num = 0;
@@ -89,6 +91,10 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         switchStatus = (TextView) findViewById(R.id.switchStatus);
         mySwitch = (Switch) findViewById(R.id.mySwitch);
 
+        switchSecondStatus = (TextView) findViewById(R.id.switchSecondStatus);
+        mySecondSwitch = (Switch) findViewById(R.id.mySecondSwitch);
+
+
         // ********************** RSSI ******************************
             // ********************** READING ******************************
 
@@ -102,34 +108,30 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         tView = (TextView) findViewById(R.id.rssiValue);
         tView.setTextColor(Color.WHITE);
         clickhere = (Button) findViewById(R.id.rssiButton);
+        clickhere.setTextColor(Color.WHITE);
 
         clickhere.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                mBleManager.readRssi();
-                String display = Integer.toString(BleManager.rssiReading);
-                tView.setText(display);
+            mBleManager.readRssi();
+            String display = Integer.toString(BleManager.rssiReading);
+            tView.setText(display);
             }
         });
 
             // ********************** READING ******************************
 
-//        SharedPreferences prefs = this.getSharedPreferences("general_settings", Context.MODE_PRIVATE);
-//        String lanSettings = prefs.getString("myRXValue");
-
-
-//        int index;
-//        if (rssiValue == 127 || rssiValue <= -84) {   // 127 reserved for RSSI not available
-//            index = 0;
-//        } else if (rssiValue <= -72) {
-//            index = 1;
-//        } else if (rssiValue <= -60) {
-//            index = 2;
-//        } else if (rssiValue <= -48) {
-//            index = 3;
-//        } else {
-//            index = 4;
-//        }
+            //        int index;
+            //        if (rssiValue == 127 || rssiValue <= -84) {   // 127 reserved for RSSI not available
+            //            index = 0;
+            //        } else if (rssiValue <= -72) {
+            //            index = 1;
+            //        } else if (rssiValue <= -60) {
+            //            index = 2;
+            //        } else if (rssiValue <= -48) {
+            //            index = 3;
+            //        } else {
+            //            index = 4;
+            //        }
 
             // ***************************************************************
 
@@ -146,13 +148,13 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                     if (isChecked) {
                         switchStatus.setTextColor(Color.WHITE);
                         switchStatus.setText("Switch is currently ON");
-                        sendData("SENDING \n");
+                        sendData("TURN ON \n");
                         Log.d(TESTBLAH, "Passed sendData");
 
                     } else {
                         switchStatus.setTextColor(Color.DKGRAY);
                         switchStatus.setText("Switch is currently OFF");
-                        sendData("RECEIVING \n");
+                        sendData("TURN OFF \n");
                         Log.d(TESTBLAH, "Passed receiveData");
 
                     }
@@ -163,11 +165,56 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             if (mySwitch.isChecked()) {
                 switchStatus.setTextColor(Color.WHITE);
                 switchStatus.setText("Switch is currently ON");
+                sendData("Default ON \n");
+                Log.d(TESTBLAH, "Default ON");
             } else {
                 switchStatus.setTextColor(Color.WHITE);
                 switchStatus.setText("Switch is currently OFF");
+                sendData("Default OFF \n");
+                Log.d(TESTBLAH, "Default OFF");
             }
             // ***************************************************************
+
+
+
+        // ********************** Second Switch ******************************
+        // Second Switch ON
+        mySecondSwitch.setChecked(true);
+        //attach a listener to check for changes in state
+        mySecondSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView,
+                                         boolean isChecked) {
+
+                if (isChecked) {
+                    switchSecondStatus.setTextColor(Color.WHITE);
+                    switchSecondStatus.setText("RSSI Active");
+                    sendData("TURN ON \n");
+                    Log.d(TESTBLAH, "Passed sendData");
+
+                } else {
+                    switchSecondStatus.setTextColor(Color.WHITE);
+                    switchSecondStatus.setText("Dimming Active");
+                    sendData("TURN OFF \n");
+                    Log.d(TESTBLAH, "Passed receiveData");
+                }
+            }
+        });
+
+        //check the current state before we display the screen
+        if (mySecondSwitch.isChecked()) {
+            switchSecondStatus.setTextColor(Color.WHITE);
+            switchSecondStatus.setText("RSSI Active");
+            sendData("Default ON \n");
+            Log.d(TESTBLAH, "Default ON");
+        } else {
+            switchSecondStatus.setTextColor(Color.WHITE);
+            switchSecondStatus.setText("Dimming Active");
+            sendData("Default OFF \n");
+            Log.d(TESTBLAH, "Default OFF");
+        }
+        // ***************************************************************
+
 
 
             // ********************** SeekBar ******************************
@@ -333,32 +380,6 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             }
         }
     }
-
-
-
-
-    private String asciiToHex(String text) {
-        StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i < text.length(); i++) {
-            String charString = String.format("0x%02X", (byte) text.charAt(i));
-
-            stringBuffer.append(charString + " ");
-        }
-        return stringBuffer.toString();
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     @Override

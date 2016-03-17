@@ -23,7 +23,26 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/mySwitch"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"/>
+
+    <Switch
+        android:id="@+id/mySecondSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/switchStatus"
+        android:layout_marginTop="15dp"
+        android:text="Toggle State"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/switchSecondStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/mySecondSwitch"
+        android:layout_marginTop="10dp"
         android:textColor="@color/white"/>
 
     <TextView
@@ -32,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginRight="25dp"
-        android:layout_below="@+id/switchStatus"
+        android:layout_below="@+id/switchSecondStatus"
         />
 
     <SeekBar
@@ -51,20 +70,24 @@
         android:text="@string/seekbar_label"
         />
 
-    <TextView
-        android:id="@+id/rssiValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/dimmingText" />
-
     <Button
         android:id="@+id/rssiButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@android:color/black"
-        android:textColor="@android:color/white"
-        android:text="Refresh"
-        android:layout_below="@+id/rssiValue" />
+        android:background="#000000"
+        android:text="Update RSSI"
+        android:layout_below="@+id/dimmingText" />
+
+    <TextView
+        android:id="@+id/rssiValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_toEndOf="@+id/rssiButton"
+
+        android:layout_below="@+id/rssiButton" />
+
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/scheduling"
