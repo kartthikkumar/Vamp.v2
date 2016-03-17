@@ -2,6 +2,8 @@ package com.adafruit.bluefruit.le.connect.app;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
+import android.media.MediaPlayer;
+import android.widget.Button;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
@@ -53,6 +55,10 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
     private Switch mySwitch;
     private SeekBar dimSettings;
 
+    int num = 0;
+    TextView tView;
+    Button clickhere;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analytics);
@@ -78,11 +84,18 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         Log.d("RSSI", Integer.toString(BleManager.rssiReading));
 
 
+        tView = (TextView) findViewById(R.id.rssiValue);
+        tView.setTextColor(Color.WHITE);
+        clickhere = (Button) findViewById(R.id.rssiButton);
 
+        clickhere.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
 
-
-
-
+                mBleManager.readRssi();
+                String display = Integer.toString(BleManager.rssiReading);
+                tView.setText(display);
+            }
+        });
 
 
 
