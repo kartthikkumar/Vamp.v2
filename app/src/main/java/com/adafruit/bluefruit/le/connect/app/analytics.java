@@ -38,9 +38,9 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
     // BLE
     private final static String TESTBLAH = analytics.class.getSimpleName();
     private AlertDialog mConnectingDialog;
-    protected BleManager mBleManager;
     protected BLE_MainActivity mBleActivity;
-    protected BluetoothGattService mUartService;
+//    protected BleManager mBleManager;
+//    protected BluetoothGattService mUartService;
 
     // SWITCH
     private TextView switchStatus;
@@ -51,7 +51,8 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analytics);
 
-
+        // Continue
+        onServicesDiscovered();
         mBleManager = BleManager.getInstance(this);
 
         rangeSeekBartext = (TextView) findViewById(R.id.seekbar_text);
@@ -82,13 +83,13 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                 if (isChecked) {
                     switchStatus.setTextColor(Color.WHITE);
                     switchStatus.setText("Switch is currently ON");
-                    sendData("SENDING");
+                    sendData("SENDING \n");
                     Log.d(TESTBLAH, "Passed sendData");
 
                 } else {
                     switchStatus.setTextColor(Color.DKGRAY);
                     switchStatus.setText("Switch is currently OFF");
-                    sendData("RECEIVING");
+                    sendData("RECEIVING \n");
                     Log.d(TESTBLAH, "Passed receiveData");
 
                 }
@@ -104,13 +105,13 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             switchStatus.setText("Switch is currently OFF");
         }
 
-        // ********************** UART Communication ******************************
+        // ********************** Scheduling ******************************
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent startUARTActivity = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.AlarmActivity.class);
-                startActivity(startUARTActivity);
+                Intent startScheduling = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.AlarmActivity.class);
+                startActivity(startScheduling);
             }
         });
         // ***************************************************************
@@ -120,8 +121,13 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         RangeSeekBar<Integer> rangeSeekBar = new RangeSeekBar<Integer>(this);
         // Set the range
         rangeSeekBar.setRangeValues(0, 100);
-        rangeSeekBar.setSelectedMinValue(20);
-        rangeSeekBar.setSelectedMaxValue(88);
+        int maxValue = rangeSeekBar.getSelectedMaxValue();
+        int minValue = rangeSeekBar.getSelectedMinValue();
+        sendData(Integer.toString(maxValue));
+        sendData(Integer.toString(minValue));
+
+//        rangeSeekBar.setSelectedMinValue(20);
+//        rangeSeekBar.setSelectedMaxValue(88);
 
 //         ********************** PI CHART ******************************
         FloatingActionButton piechartstart = (FloatingActionButton) findViewById(R.id.piechartstart);
@@ -142,6 +148,19 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             public void onClick(View view) {
                 Intent startLineGraph = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.LineChartActivity1.class);
                 startActivity(startLineGraph);
+            }
+        });
+        // ***************************************************************
+
+
+
+        // ********************** UART TEMP ******************************
+        FloatingActionButton uartTEMP = (FloatingActionButton) findViewById(R.id.uartTEMP);
+        uartTEMP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent startScheduling = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.UartActivity.class);
+                startActivity(startScheduling);
             }
         });
         // ***************************************************************

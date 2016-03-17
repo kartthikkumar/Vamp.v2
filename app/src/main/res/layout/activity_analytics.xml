@@ -74,4 +74,14 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/line"
         android:onClick="startPIChart" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/uartTEMP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@android:drawable/stat_sys_data_bluetooth"
+        android:onClick="startScheduling" />
 </RelativeLayout>

@@ -170,8 +170,6 @@
         <activity android:name=".app.analytics"
             android:label="Device Analytics" />
 
-        <activity android:name=".app.sendUART" />
-
         <activity
             android:name=".app.AlarmActivity"
             android:theme="@style/AppTheme"
