@@ -22,13 +22,13 @@ final public class ItemListFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
 
+        availableDevices.add(new Item(R.drawable.lamp, "Central Lamp", "DC Library"));
+        availableDevices.add(new Item(R.drawable.fan, "Fan", "DC library"));
         availableDevices.add(new Item(R.drawable.music, "Home Theatre Receiver", "South Wall"));
         availableDevices.add(new Item(R.drawable.monitor, "Flat Screen", "North Wall"));
-        availableDevices.add(new Item(R.drawable.lamp, "Central Lamp", "East Wall"));
         availableDevices.add(new Item(R.drawable.computerdesk, "Computer", "East Wall"));
         availableDevices.add(new Item(R.drawable.monitortwo, "Additional Monitor", "East Wall"));
         availableDevices.add(new Item(R.drawable.desklamp, "Desk Lamp", "East Wall"));
-        availableDevices.add(new Item(R.drawable.fan, "Fan", "East Wall"));
         availableDevices.add(new Item(R.drawable.fireplace, "Fireplace", "West Wall"));
         availableDevices.add(new Item(R.drawable.outlet, "Central Plug", "North Wall"));
         availableDevices.add(new Item(R.drawable.plug, "Extension Bar", "North Wall"));
@@ -46,12 +46,14 @@ final public class ItemListFragment extends ListFragment {
 
         switch (position) {
             case 0:
-//                Intent analyticsMain = new Intent(getActivity().getApplicationContext(), analytics.class);
-//                startActivity(analyticsMain);
-//                break;
+                Intent lampAnalytics = new Intent(getActivity().getApplicationContext(), analytics.class);
+                startActivity(lampAnalytics);
+                break;
+            case 1:
+                Intent fanAnalytics = new Intent(getActivity().getApplicationContext(), analytics.class);
+                startActivity(fanAnalytics);
+                break;
             default:
-                Intent analyticsMain = new Intent(getActivity().getApplicationContext(), analytics.class);
-                startActivity(analyticsMain);
                 break;
         }
     }

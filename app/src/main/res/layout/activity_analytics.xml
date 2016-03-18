@@ -70,23 +70,22 @@
         android:text="@string/seekbar_label"
         />
 
-    <Button
-        android:id="@+id/rssiButton"
+    <TextView
+        android:id="@+id/rssiText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#000000"
-        android:text="Update RSSI"
-        android:layout_below="@+id/dimmingText" />
+        android:layout_below="@+id/dimmingText"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="25dp"
+        android:text="@string/rssi_label"
+        />
 
     <TextView
         android:id="@+id/rssiValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
-        android:layout_toEndOf="@+id/rssiButton"
-
-        android:layout_below="@+id/rssiButton" />
-
+        android:layout_below="@+id/rssiText" />
 
 
     <android.support.design.widget.FloatingActionButton
@@ -129,6 +128,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/stat_sys_data_bluetooth"
+        android:src="@drawable/refreshicon"
         android:onClick="startUART" />
 </RelativeLayout>

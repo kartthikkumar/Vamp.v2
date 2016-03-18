@@ -3,6 +3,7 @@ package com.adafruit.bluefruit.le.connect.app;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.media.MediaPlayer;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -30,6 +31,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.ToggleButton;
+import android.os.Handler;
 
 import com.adafruit.bluefruit.le.connect.R;
 import com.adafruit.bluefruit.le.connect.app.settings.MqttUartSettingsActivity;
@@ -39,16 +41,16 @@ import com.adafruit.bluefruit.le.connect.mqtt.MqttSettings;
 
 import com.adafruit.bluefruit.le.connect.ble.BleManager;
 
+import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.nio.ByteBuffer;
 
 import android.content.SharedPreferences;
 import android.content.Context;
-
-
 
 public class analytics extends UartInterfaceActivity implements BleManager.BleManagerListener {
 
@@ -68,9 +70,12 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
     private TextView switchSecondStatus;
     private TextView rangeSeekBartext;
     private TextView dimmingText;
+    private TextView rssiText;
+
     private Switch mySwitch;
     private Switch mySecondSwitch;
     private SeekBar dimSettings;
+    private long mLastUpdateMillis = 0;
 
     int num = 0;
     TextView tView;
@@ -81,8 +86,11 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 //    public static boolean pretoggleONOFF;
     public static boolean toggleRSSIDIM;
 //    public static boolean pretoggleRSSIDIM;
-    public String rssiValueGlobal = "";
+    public int rssiValueGlobal;
     public String dimmingValueGlobal = "";
+
+
+    public byte[] info = "".getBytes();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +101,10 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 
         rangeSeekBartext = (TextView) findViewById(R.id.seekbar_text);
         dimmingText = (TextView) findViewById(R.id.dimmingText);
+        rssiText = (TextView) findViewById(R.id.rssiText);
+
         dimmingText.setTextColor(Color.WHITE);
+        rssiText.setTextColor(Color.WHITE);
 
         switchStatus = (TextView) findViewById(R.id.switchStatus);
         mySwitch = (Switch) findViewById(R.id.mySwitch);
@@ -101,8 +112,6 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         switchSecondStatus = (TextView) findViewById(R.id.switchSecondStatus);
         mySecondSwitch = (Switch) findViewById(R.id.mySecondSwitch);
         // ****************************************************************************************
-
-
 
 
             // ********************** Toggle Device ******************************
@@ -117,19 +126,37 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                     if (isChecked) {
                         switchStatus.setTextColor(Color.WHITE);
                         switchStatus.setText("Switch is currently ON");
+
+
+                        String info = "01000001";
+                        int a = Integer.parseInt(info);
+                        ByteBuffer bytes = ByteBuffer.allocate(4).putInt(a);
+                        byte[] array = bytes.array();
+                        sendData(array);
+
+
                         //sendData("TURN ON \n");
-                        Log.d(TESTBLAH, "Switch is ON");
+                        Log.d(TESTBLAH, "Switch is ON: " + info);
 
                     } else {
                         switchStatus.setTextColor(Color.DKGRAY);
                         switchStatus.setText("Switch is currently OFF");
+
+
+                        String info = "01000001";
+                        int a = Integer.parseInt(info);
+                        ByteBuffer bytes = ByteBuffer.allocate(4).putInt(a);
+                        byte[] array = bytes.array();
+                        sendData(array);
+
+
                         //sendData("TURN OFF \n");
-                        Log.d(TESTBLAH, "Switch is OFF");
+                        Log.d(TESTBLAH, "Switch is OFF: " + info);
                     }
                 }
             });
 
-            //pretoggleONOFF = mySwitch.isChecked();
+            toggleONOFF = mySwitch.isChecked();
             //check the current state before we display the screen
             if (mySwitch.isChecked()) {
                 switchStatus.setTextColor(Color.WHITE);
@@ -143,7 +170,6 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                 Log.d(TESTBLAH, "Default OFF");
             }
             // ***************************************************************
-
 
 
         // ********************** Toggle State ******************************
@@ -169,7 +195,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             }
         });
 
-        //pretoggleRSSIDIM = mySecondSwitch.isChecked();
+        toggleRSSIDIM = mySecondSwitch.isChecked();
         //check the current state before we display the screen
         if (mySecondSwitch.isChecked()) {
             switchSecondStatus.setTextColor(Color.WHITE);
@@ -182,27 +208,6 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             seekBarReading();
         }
         // ***************************************************************
-
-
-
-        // ON + RSSI
-        if (toggleONOFF && toggleONOFF) {
-            sendData(rssiValueGlobal);
-        }
-
-        // ON + DIMMING
-        else if (toggleONOFF && !toggleRSSIDIM)
-            sendData(dimmingValueGlobal);
-
-        // OFF
-        else{
-            sendData("nodata");
-        }
-
-
-
-
-
 
 
             // ********************** Scheduling ******************************
@@ -246,24 +251,68 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             uartTEMP.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent startUART = new Intent(analytics.this, com.adafruit.bluefruit.le.connect.app.UartActivity.class);
-                    startActivity(startUART);
+                    Log.d(TESTBLAH, "Toggle " + toggleONOFF);
+                    Log.d(TESTBLAH, "RSSID / DIM " + toggleRSSIDIM);
+                    Log.d(TESTBLAH, "rssiValue " + rssiValueGlobal);
+                    Log.d(TESTBLAH, "Dimming Value " + dimmingValueGlobal);
+
+
+//                    // LAMP
+//                    String infoLamp = "0";
+//                    if (toggleONOFF) {
+//                        infoLamp += "1";
+//                    }
+//                    else{
+//                        infoLamp += "0";
+//                    }
+//
+//                    infoLamp += "00000";
+//                    if (rssiValueGlobal < -50) {
+//                        infoLamp += "0";
+//                    }
+//                    else{
+//                        infoLamp += "1";
+//                    }
+
+                    // FAN
+                    String infoFan = "1";
+                    if(toggleONOFF){
+                        infoFan += "1";
+                    }
+                    else{
+                        infoFan += "0";
+                    }
+                    infoFan += "10";
+                    infoFan += dimmingValueGlobal;
+
+
+                    String s = infoFan;
+                    String str = "";
+
+                    for (int i = 0; i < s.length()/8; i++) {
+
+                        int a = Integer.parseInt(s.substring(8*i,(i+1)*8),2);
+                        str += (char)(a);
+                    }
+
+                    sendData(str);
+                    Log.d(TESTBLAH, "Final Array Sent: " + str);
                 }
             });
             // ***************************************************************
-        }
 
-
-
-
-
-
-
-
-
-
-
-
+        final Handler handler=new Handler();
+        handler.post(new Runnable(){
+            @Override
+            public void run() {
+                // upadte textView here
+                mBleManager.readRssi();
+                String display = Integer.toString(BleManager.rssiReading);
+                tView.setText(display);
+                handler.postDelayed(this,250); // set time here to refresh textView
+            }
+        });
+    }
 
 
 
@@ -279,30 +328,15 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 
         tView = (TextView) findViewById(R.id.rssiValue);
         tView.setTextColor(Color.WHITE);
-        clickhere = (Button) findViewById(R.id.rssiButton);
-        clickhere.setTextColor(Color.WHITE);
 
-        clickhere.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mBleManager.readRssi();
-                String display = Integer.toString(BleManager.rssiReading);
-                tView.setText(display);
-
-                rssiValueGlobal = display;
-
-                //sendData(display);
-                Log.d(TESTBLAH, "Toggle Switched with sendData" + display);
-
-
-            }
-        });
+        rssiValueGlobal = rssiValue;
+        }
         // ********************** READING ******************************
-    }
 
 
+        // ********************** SeekBar ******************************
         public void seekBarReading()
         {
-            // ********************** SeekBar ******************************
             dimSettings = (SeekBar) findViewById(R.id.seekbar_placeholder);
             dimSettings.setMax(100);
             dimSettings.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -310,13 +344,11 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
                     // TODO Auto-generated method stub
-
                 }
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
                     // TODO Auto-generated method stub
-
                 }
 
                 @Override
@@ -324,63 +356,44 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                                               boolean fromUser) {
                     rangeSeekBartext.setTextColor(Color.WHITE);
                     rangeSeekBartext.setText(String.valueOf(progress));
+
+                    String progressString = "";
                     Log.d(TESTBLAH, "Dimming Setting: " + progress);
 
                     if (progress == 0) {
                         progress = 0;
-                        //sendData(String.valueOf(progress));
+                        progressString = "0000";
                     } else if (progress <= 12.5) {
                         progress = 1;
-                        //sendData(String.valueOf(progress));
+                        progressString = "0001";
                     } else if (progress <= 25) {
                         progress = 2;
-                        //sendData(String.valueOf(progress));
+                        progressString = "0010";
                     } else if (progress <= 37.5) {
                         progress = 3;
-                        //sendData(String.valueOf(progress));
+                        progressString = "0011";
                     } else if (progress <= 50) {
                         progress = 4;
-                        //sendData(String.valueOf(progress));
+                        progressString = "0100";
                     } else if (progress <= 62.5) {
                         progress = 5;
-                        //sendData(String.valueOf(progress));
+                        progressString = "0101";
                     } else if (progress <= 75) {
                         progress = 6;
-                        //sendData(String.valueOf(progress));
+                        progressString = "0110";
                     } else if (progress <= 87.5) {
                         progress = 7;
-                        //sendData(String.valueOf(progress));
+                        progressString = "0111";
                     } else {
                         progress = 8;
-                        //sendData(String.valueOf(progress));
+                        progressString = "1000";
                     }
 
-                    dimmingValueGlobal = String.valueOf(progress);
+                    dimmingValueGlobal = progressString;
                 }
             });
             // ***************************************************************
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -464,6 +477,8 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
     public void onReadRemoteRssi(int rssi) {
     }
 
+    // **************************  End Of Region BleManagerListener ************************
+
     @Override
     public void onResume()
     {
@@ -472,5 +487,22 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         String language = settings.getString("myRXValue", "");
         Log.d(TESTBLAH, "Shared Pref Data" + language);
     }
-    // **************************  End Of Region BleManagerListener ************************
+
+//    @Override
+//    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putBoolean(Boolean.toString(toggleONOFF), previousONOFFState);
+//        outState.putBoolean(Boolean.toString(toggleRSSIDIM), previousRSSIDIM);
+////        outState.putString(rssiValueGlobal, previousRssiValue);
+////        outState.putString(dimmingValueGlobal, previousDimmingValue);
+//    }
+//
+//    @Override
+//    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+//        super.onRestoreInstanceState(savedInstanceState);
+//        previousONOFFState = savedInstanceState.getBoolean(Boolean.toString(toggleONOFF));
+//        previousRSSIDIM = savedInstanceState.getBoolean(previousRSSIDIM);
+//    }
+
+
 }

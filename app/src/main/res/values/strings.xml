@@ -367,6 +367,7 @@
     <string name="min_label">Min</string>
     <string name="max_label">Max</string>
     <string name="seekbar_label">Dimming Capabilities</string>
+    <string name="rssi_label">RSSI Value:</string>
 
 
     <!-- Debug -->
