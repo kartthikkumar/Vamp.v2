@@ -87,7 +87,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
     public static boolean toggleRSSIDIM;
 //    public static boolean pretoggleRSSIDIM;
     public int rssiValueGlobal;
-    public String dimmingValueGlobal = "";
+    public String dimmingValueGlobal = "1000";
 
 
     public byte[] info = "".getBytes();
@@ -357,7 +357,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                     rangeSeekBartext.setTextColor(Color.WHITE);
                     rangeSeekBartext.setText(String.valueOf(progress));
 
-                    String progressString = "";
+                    String progressString = "0000";
                     Log.d(TESTBLAH, "Dimming Setting: " + progress);
 
                     if (progress == 0) {

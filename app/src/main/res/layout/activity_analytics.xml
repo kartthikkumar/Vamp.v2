@@ -88,6 +88,15 @@
         android:layout_below="@+id/rssiText" />
 
 
+    <Button
+        android:id="@+id/lampButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/lamp"
+        android:layout_above="@+id/piechartstart"
+        android:layout_centerHorizontal="true" />
+
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/scheduling"
         android:layout_width="wrap_content"
@@ -125,9 +134,10 @@
         android:id="@+id/uartTEMP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/refreshicon"
-        android:onClick="startUART" />
+        android:onClick="startUART"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_alignTop="@+id/piechartstart"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
