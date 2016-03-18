@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +35,7 @@ import com.adafruit.bluefruit.le.connect.app.charting.interfaces.datasets.ILineD
 import com.adafruit.bluefruit.le.connect.app.charting.listener.ChartTouchListener;
 import com.adafruit.bluefruit.le.connect.app.charting.listener.OnChartGestureListener;
 import com.adafruit.bluefruit.le.connect.app.charting.listener.OnChartValueSelectedListener;
+import com.adafruit.bluefruit.le.connect.ble.BleManager;
 import com.xxmassdeveloper.mpchartexample.custom.MyMarkerView;
 import com.xxmassdeveloper.mpchartexample.notimportant.DemoBase;
 import android.support.v7.widget.Toolbar;
@@ -45,8 +47,21 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         OnChartGestureListener, OnChartValueSelectedListener {
 
     private LineChart mChart;
-    private SeekBar mSeekBarX, mSeekBarY;
-    private TextView tvX, tvY;
+   // private SeekBar mSeekBarX, mSeekBarY;
+  //  private TextView tvX, tvY;
+
+    // ******************************* Plug ADC Sample ***************************************
+
+    boolean plugTopPower, plugBottomPower;
+    public float plugTopADCSample;
+    public float plugBottomADCSample;
+    int xPointer = 0;
+    Integer adcLampData = 0;
+    Integer adcFanData = 0;
+
+    Double random1 = 0.00;
+    Integer plugTopDimmingSetting = 0;
+    // ******************************* Plug ADC Sample ***************************************
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,29 +71,11 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         setContentView(R.layout.activity_linechart);
 
 
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        ActionBar bar = getSupportActionBar();
-
-        tvX = (TextView) findViewById(R.id.tvXMax);
-        tvY = (TextView) findViewById(R.id.tvYMax);
-        tvX.setTextColor(Color.WHITE);
-        tvY.setTextColor(Color.WHITE);
-
-
-        mSeekBarX = (SeekBar) findViewById(R.id.seekBar1);
-        mSeekBarY = (SeekBar) findViewById(R.id.seekBar2);
-
-        mSeekBarX.setProgress(45);
-        mSeekBarY.setProgress(100);
-
-        mSeekBarY.setOnSeekBarChangeListener(this);
-        mSeekBarX.setOnSeekBarChangeListener(this);
 
 
 
         mChart = (LineChart) findViewById(R.id.chart1);
-        mChart.setOnChartGestureListener(this);
+
         mChart.setOnChartValueSelectedListener(this);
         mChart.setDrawGridBackground(false);
 
@@ -86,20 +83,20 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
 
 
         // no description text
-        mChart.setDescription("");
-        mChart.setNoDataTextDescription("You need to provide data for the chart.");
+  //      mChart.setDescription("");
+   //     mChart.setNoDataTextDescription("You need to provide data for the chart.");
 
         // enable touch gestures
-        mChart.setTouchEnabled(true);
+   //     mChart.setTouchEnabled(true);
 
         // enable scaling and dragging
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(true);
+    //    mChart.setDragEnabled(true);
+   //     mChart.setScaleEnabled(true);
         // mChart.setScaleXEnabled(true);
         // mChart.setScaleYEnabled(true);
 
         // if disabled, scaling can be done on x- and y-axis separately
-        mChart.setPinchZoom(true);
+    //    mChart.setPinchZoom(true);
 
         // set an alternative background color
 //         mChart.setBackgroundColor(Color.GRAY);
@@ -149,8 +146,8 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         leftAxis.removeAllLimitLines(); // reset all limit lines to avoid overlapping lines
         leftAxis.addLimitLine(ll1);
         leftAxis.addLimitLine(ll2);
-        leftAxis.setAxisMaxValue(220f);
-        leftAxis.setAxisMinValue(-50f);
+        leftAxis.setAxisMaxValue(1);
+        leftAxis.setAxisMinValue(0);
         leftAxis.setTextColor(Color.WHITE);
         leftAxis.setAxisLineColor(Color.WHITE);
 
@@ -161,7 +158,7 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         // limit lines are drawn behind data (and not on top)
         leftAxis.setDrawLimitLinesBehindData(true);
 
-        mChart.getAxisRight().setEnabled(false);
+        mChart.getAxisRight().setEnabled(true);
 
         //mChart.getViewPortHandler().setMaximumScaleY(2f);
         //mChart.getViewPortHandler().setMaximumScaleX(2f);
@@ -169,8 +166,8 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
         // add data
         setData(45, 100);
 
-//        mChart.setVisibleXRange(20);
-//        mChart.setVisibleYRange(20f, AxisDependency.LEFT);
+  //  mChart.setVisibleXRange(20);
+   //   mChart.setVisibleYRange(20f, AxisDependency.LEFT);
 //        mChart.centerViewTo(20, 50, AxisDependency.LEFT);
 
         mChart.animateX(2500, Easing.EasingOption.EaseInOutQuart);
@@ -185,6 +182,37 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
 
         // // dont forget to refresh the drawing
         // mChart.invalidate();
+
+
+        // HANDLER
+
+        final Handler handler3 =new Handler();
+        handler3.post(new Runnable(){
+            @Override
+            public void run() {
+
+                // update textView here
+                plugTopPower = analytics.toggleONOFF;
+                plugTopDimmingSetting = analytics.dimmingValueProgress;
+                if(plugTopPower){
+                    plugTopADCSample = (float) (returnADCReading(plugTopDimmingSetting)*0.455);
+                    random1 = Math.random() * 0.2;
+                    plugTopADCSample += random1;
+                   // plugTopADCSample /= 1000;
+                }
+                else{
+                    plugTopADCSample = 0f;
+                }
+                setData(xPointer,plugTopADCSample);
+                mChart.notifyDataSetChanged();
+                mChart.invalidate();
+                xPointer += 1;
+
+                handler3.postDelayed(this,1000); // set time here to refresh textView
+            }
+        });
+
+
     }
 
     @Override
@@ -327,13 +355,6 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
-        tvX.setText("" + (mSeekBarX.getProgress() + 1));
-        tvY.setText("" + (mSeekBarY.getProgress()));
-
-        setData(mSeekBarX.getProgress() + 1, mSeekBarY.getProgress());
-
-        // redraw
-        mChart.invalidate();
     }
 
     @Override
@@ -348,23 +369,53 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
 
     }
 
-    private void setData(int count, float range) {
 
-        ArrayList<String> xVals = new ArrayList<String>();
-        for (int i = 0; i < count; i++) {
-            xVals.add((i) + "");
+    public static double returnADCReading(int duty) {
+        switch (duty) {
+            case 0: // 0%
+                return 0;
+
+            case 1: // 13%
+                return 0.01;
+
+            case 2: // 25%
+                return 0.11;
+
+            case 3: //37%
+                return 0.3;
+
+            case 4: //50%
+                return 0.5;
+
+            case 5: //63%
+                return 0.75;
+
+            case 6: //75%
+                return 0.92;
+
+            case 7: //88%
+                return 0.99;
+
+            case 8: //100%
+                return 1;
         }
+    return 1;
+    }
 
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
+    ArrayList<String> xVals = new ArrayList<String>();
+    ArrayList<Entry> yVals = new ArrayList<Entry>();
 
-        for (int i = 0; i < count; i++) {
+    private void setData(int x, float plugTopADCSample) {
 
-            float mult = (range + 1);
-            float val = (float) (Math.random() * mult) + 3;// + (float)
-            // ((mult *
-            // 0.1) / 10);
-            yVals.add(new Entry(val, i));
-        }
+        //ArrayList<String> xVals = new ArrayList<String>();
+            xVals.add((x) + "");
+
+
+       // ArrayList<Entry> yVals = new ArrayList<Entry>();
+            yVals.add(new Entry(plugTopADCSample, x));
+
+
+
 
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(yVals, "Current Consumption");
@@ -399,6 +450,7 @@ public class LineChartActivity1 extends DemoBase implements OnSeekBarChangeListe
 
         // set data
         mChart.setData(data);
+        mChart.notifyDataSetChanged();
     }
 
     @Override

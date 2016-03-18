@@ -1,0 +1,143 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:rsb="http://schemas.android.com/apk/res-auto"
+    tools:context=".app.analyticsFan"
+    android:padding="5dp"
+    android:background="#000000">
+
+    <Switch
+        android:id="@+id/mySwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:text="Toggle Device"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/switchStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/mySwitch"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"/>
+
+    <Switch
+        android:id="@+id/mySecondSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/switchStatus"
+        android:layout_marginTop="15dp"
+        android:text="Toggle State"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/switchSecondStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/mySecondSwitch"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/seekbar_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:layout_below="@+id/switchSecondStatus"
+        />
+
+    <SeekBar
+        android:id="@+id/seekbar_placeholder"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekbar_text" />
+
+    <TextView
+        android:id="@+id/dimmingText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/seekbar_placeholder"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:text="@string/seekbar_label"
+        />
+
+    <TextView
+        android:id="@+id/rssiText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dimmingText"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="25dp"
+        android:text="@string/rssi_label"
+        />
+
+    <TextView
+        android:id="@+id/rssiValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_below="@+id/rssiText" />
+
+
+    <Button
+        android:id="@+id/lampButton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/fan"
+        android:layout_above="@+id/piechartstart"
+        android:layout_centerHorizontal="true" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/scheduling"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startScheduling"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/schedule"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/piechartstart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/pie"
+        android:onClick="startPIChart"  />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/linegraphstart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/line"
+        android:onClick="startLineChart" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/refreshAction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/refreshicon"
+        android:onClick="startUART"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_alignTop="@+id/piechartstart"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

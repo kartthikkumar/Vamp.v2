@@ -50,7 +50,7 @@ final public class ItemListFragment extends ListFragment {
                 startActivity(lampAnalytics);
                 break;
             case 1:
-                Intent fanAnalytics = new Intent(getActivity().getApplicationContext(), analytics.class);
+                Intent fanAnalytics = new Intent(getActivity().getApplicationContext(), analyticsFan.class);
                 startActivity(fanAnalytics);
                 break;
             default:

@@ -88,6 +88,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 //    public static boolean pretoggleRSSIDIM;
     public int rssiValueGlobal;
     public String dimmingValueGlobal = "1000";
+    public static int dimmingValueProgress;
 
 
     public byte[] info = "".getBytes();
@@ -338,7 +339,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 
                 sendData(str);
                 Log.d(TESTBLAH, "Final Array Sent: " + str);
-                handler.postDelayed(this,250); // set time here to refresh textView
+                handler.postDelayed(this,1000); // set time here to refresh textView
             }
         });
     }
@@ -419,6 +420,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                     }
 
                     dimmingValueGlobal = progressString;
+                    dimmingValueProgress = progress;
                 }
             });
             // ***************************************************************

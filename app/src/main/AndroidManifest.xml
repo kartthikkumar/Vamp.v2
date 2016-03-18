@@ -24,11 +24,11 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
     <application
-        android:largeHeap="true"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/vampoutlet"
         android:label="@string/app_icon_name"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
@@ -155,8 +155,7 @@
             android:label="@string/title_activity_ble__main" />
         <activity
             android:name=".app.tabbedView"
-            android:label="@string/title_activity_analytics"
-            />
+            android:label="@string/title_activity_analytics" />
         <activity
             android:name=".app.ListActivity"
             android:label="@string/title_activity_availableDevices" />
@@ -166,22 +165,21 @@
         <activity
             android:name=".app.PieChartActivity"
             android:label="Pie Chart" />
-
-        <activity android:name=".app.analytics"
+        <activity
+            android:name=".app.analytics"
             android:label="Device Analytics" />
-
         <activity
             android:name=".app.AlarmActivity"
-            android:theme="@style/AppTheme"
-            android:label="@string/app_name">
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme"></activity>
 
-        </activity>
         <service
             android:name=".app.AlarmService"
             android:enabled="true" />
+
         <receiver android:name=".app.AlarmReceiver" />
 
-
+        <activity android:name=".app.analyticsFan"></activity>
     </application>
 
 </manifest>
