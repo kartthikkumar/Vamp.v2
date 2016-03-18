@@ -126,31 +126,11 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                     if (isChecked) {
                         switchStatus.setTextColor(Color.WHITE);
                         switchStatus.setText("Switch is currently ON");
-
-
-                        String info = "01000001";
-                        int a = Integer.parseInt(info);
-                        ByteBuffer bytes = ByteBuffer.allocate(4).putInt(a);
-                        byte[] array = bytes.array();
-                        sendData(array);
-
-
-                        //sendData("TURN ON \n");
                         Log.d(TESTBLAH, "Switch is ON: " + info);
 
                     } else {
                         switchStatus.setTextColor(Color.DKGRAY);
                         switchStatus.setText("Switch is currently OFF");
-
-
-                        String info = "01000001";
-                        int a = Integer.parseInt(info);
-                        ByteBuffer bytes = ByteBuffer.allocate(4).putInt(a);
-                        byte[] array = bytes.array();
-                        sendData(array);
-
-
-                        //sendData("TURN OFF \n");
                         Log.d(TESTBLAH, "Switch is OFF: " + info);
                     }
                 }
@@ -256,37 +236,37 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                     Log.d(TESTBLAH, "rssiValue " + rssiValueGlobal);
                     Log.d(TESTBLAH, "Dimming Value " + dimmingValueGlobal);
 
-
-//                    // LAMP
-//                    String infoLamp = "00";
-//                    if (toggleONOFF) {
-//                        infoLamp += "1";
-//                    }
-//                    else{
-//                        infoLamp += "0";
-//                    }
-//
-//                    infoLamp += "0000";
-//                    if (rssiValueGlobal < -50) {
-//                        infoLamp += "0";
-//                    }
-//                    else{
-//                        infoLamp += "1";
-//                    }
-
-                    // FAN
-                    String infoFan = "01";
-                    if(toggleONOFF){
-                        infoFan += "1";
+                    rssiReading();
+                    // LAMP
+                    String infoLamp = "00";
+                    if (toggleONOFF) {
+                        infoLamp += "1";
                     }
                     else{
-                        infoFan += "0";
+                        infoLamp += "0";
                     }
-                    infoFan += "1";
-                    infoFan += dimmingValueGlobal;
+
+                    infoLamp += "0000";
+                    if (rssiValueGlobal < -70) {
+                        infoLamp += "0";
+                    }
+                    else{
+                        infoLamp += "1";
+                    }
+
+//                    // FAN
+//                    String infoFan = "01";
+//                    if(toggleONOFF){
+//                        infoFan += "1";
+//                    }
+//                    else{
+//                        infoFan += "0";
+//                    }
+//                    infoFan += "1";
+//                    infoFan += dimmingValueGlobal;
 
 
-                    String s = infoFan;
+                    String s = infoLamp;
                     String str = "";
 
                     for (int i = 0; i < s.length()/8; i++) {
@@ -309,6 +289,55 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                 mBleManager.readRssi();
                 String display = Integer.toString(BleManager.rssiReading);
                 tView.setText(display);
+                handler.postDelayed(this,250); // set time here to refresh textView
+            }
+        });
+        final Handler handler2=new Handler();
+        handler.post(new Runnable(){
+            @Override
+            public void run() {
+                // upadte textView here
+                rssiReading();
+                // LAMP
+                String infoLamp = "00";
+                if (toggleONOFF) {
+                    infoLamp += "1";
+                }
+                else{
+                    infoLamp += "0";
+                }
+
+                infoLamp += "0000";
+                if (rssiValueGlobal < -70) {
+                    infoLamp += "0";
+                }
+                else{
+                    infoLamp += "1";
+                }
+
+//                    // FAN
+//                    String infoFan = "01";
+//                    if(toggleONOFF){
+//                        infoFan += "1";
+//                    }
+//                    else{
+//                        infoFan += "0";
+//                    }
+//                    infoFan += "1";
+//                    infoFan += dimmingValueGlobal;
+
+
+                String s = infoLamp;
+                String str = "";
+
+                for (int i = 0; i < s.length()/8; i++) {
+
+                    int a = Integer.parseInt(s.substring(8*i,(i+1)*8),2);
+                    str += (char)(a);
+                }
+
+                sendData(str);
+                Log.d(TESTBLAH, "Final Array Sent: " + str);
                 handler.postDelayed(this,250); // set time here to refresh textView
             }
         });
