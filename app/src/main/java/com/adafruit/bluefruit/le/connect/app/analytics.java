@@ -76,11 +76,18 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
     TextView tView;
     Button clickhere;
 
+
+    public static boolean toggleONOFF;
+//    public static boolean pretoggleONOFF;
+    public static boolean toggleRSSIDIM;
+//    public static boolean pretoggleRSSIDIM;
+    public String rssiValueGlobal = "";
+    public String dimmingValueGlobal = "";
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_analytics);
 
-        // DO NOT TOUCH
         mBleManager = BleManager.getInstance(this);
         onServicesDiscovered();
 
@@ -93,24 +100,9 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 
         switchSecondStatus = (TextView) findViewById(R.id.switchSecondStatus);
         mySecondSwitch = (Switch) findViewById(R.id.mySecondSwitch);
+        // ****************************************************************************************
 
 
-        // ********************** RSSI ******************************
-
-            //        int index;
-            //        if (rssiValue == 127 || rssiValue <= -84) {   // 127 reserved for RSSI not available
-            //            index = 0;
-            //        } else if (rssiValue <= -72) {
-            //            index = 1;
-            //        } else if (rssiValue <= -60) {
-            //            index = 2;
-            //        } else if (rssiValue <= -48) {
-            //            index = 3;
-            //        } else {
-            //            index = 4;
-            //        }
-
-        // ***************************************************************
 
 
             // ********************** Toggle Device ******************************
@@ -121,33 +113,33 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView,
                                              boolean isChecked) {
-
+                    toggleONOFF = isChecked;
                     if (isChecked) {
                         switchStatus.setTextColor(Color.WHITE);
                         switchStatus.setText("Switch is currently ON");
-                        sendData("TURN ON \n");
-                        Log.d(TESTBLAH, "Passed sendData");
+                        //sendData("TURN ON \n");
+                        Log.d(TESTBLAH, "Switch is ON");
 
                     } else {
                         switchStatus.setTextColor(Color.DKGRAY);
                         switchStatus.setText("Switch is currently OFF");
-                        sendData("TURN OFF \n");
-                        Log.d(TESTBLAH, "Passed receiveData");
-
+                        //sendData("TURN OFF \n");
+                        Log.d(TESTBLAH, "Switch is OFF");
                     }
                 }
             });
 
+            //pretoggleONOFF = mySwitch.isChecked();
             //check the current state before we display the screen
             if (mySwitch.isChecked()) {
                 switchStatus.setTextColor(Color.WHITE);
                 switchStatus.setText("Switch is currently ON");
-                sendData("Default ON \n");
+                //sendData("Default ON \n");
                 Log.d(TESTBLAH, "Default ON");
             } else {
                 switchStatus.setTextColor(Color.WHITE);
                 switchStatus.setText("Switch is currently OFF");
-                sendData("Default OFF \n");
+                //sendData("Default OFF \n");
                 Log.d(TESTBLAH, "Default OFF");
             }
             // ***************************************************************
@@ -163,6 +155,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             public void onCheckedChanged(CompoundButton buttonView,
                                          boolean isChecked) {
 
+                toggleRSSIDIM = isChecked;
                 if (isChecked) {
                     switchSecondStatus.setTextColor(Color.WHITE);
                     switchSecondStatus.setText("RSSI Active");
@@ -176,6 +169,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             }
         });
 
+        //pretoggleRSSIDIM = mySecondSwitch.isChecked();
         //check the current state before we display the screen
         if (mySecondSwitch.isChecked()) {
             switchSecondStatus.setTextColor(Color.WHITE);
@@ -188,6 +182,27 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             seekBarReading();
         }
         // ***************************************************************
+
+
+
+        // ON + RSSI
+        if (toggleONOFF && toggleONOFF) {
+            sendData(rssiValueGlobal);
+        }
+
+        // ON + DIMMING
+        else if (toggleONOFF && !toggleRSSIDIM)
+            sendData(dimmingValueGlobal);
+
+        // OFF
+        else{
+            sendData("nodata");
+        }
+
+
+
+
+
 
 
             // ********************** Scheduling ******************************
@@ -238,6 +253,20 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
             // ***************************************************************
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         // ********************** READING ******************************
         public void rssiReading(){
 
@@ -245,7 +274,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
         Log.d("RSSI", Boolean.toString(rssiBoolean));
 
         int rssiValue = BleManager.rssiReading;
-        sendData(Integer.toString(BleManager.rssiReading));
+        //sendData(Integer.toString(BleManager.rssiReading));
         Log.d("RSSI", Integer.toString(BleManager.rssiReading));
 
         tView = (TextView) findViewById(R.id.rssiValue);
@@ -258,7 +287,10 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
                 mBleManager.readRssi();
                 String display = Integer.toString(BleManager.rssiReading);
                 tView.setText(display);
-                sendData(display);
+
+                rssiValueGlobal = display;
+
+                //sendData(display);
                 Log.d(TESTBLAH, "Toggle Switched with sendData" + display);
 
 
@@ -296,38 +328,65 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 
                     if (progress == 0) {
                         progress = 0;
-                        sendData(String.valueOf(progress));
+                        //sendData(String.valueOf(progress));
                     } else if (progress <= 12.5) {
                         progress = 1;
-                        sendData(String.valueOf(progress));
+                        //sendData(String.valueOf(progress));
                     } else if (progress <= 25) {
                         progress = 2;
-                        sendData(String.valueOf(progress));
+                        //sendData(String.valueOf(progress));
                     } else if (progress <= 37.5) {
                         progress = 3;
-                        sendData(String.valueOf(progress));
+                        //sendData(String.valueOf(progress));
                     } else if (progress <= 50) {
                         progress = 4;
-                        sendData(String.valueOf(progress));
+                        //sendData(String.valueOf(progress));
                     } else if (progress <= 62.5) {
                         progress = 5;
-                        sendData(String.valueOf(progress));
+                        //sendData(String.valueOf(progress));
                     } else if (progress <= 75) {
                         progress = 6;
-                        sendData(String.valueOf(progress));
+                        //sendData(String.valueOf(progress));
                     } else if (progress <= 87.5) {
                         progress = 7;
-                        sendData(String.valueOf(progress));
+                        //sendData(String.valueOf(progress));
                     } else {
                         progress = 8;
-                        sendData(String.valueOf(progress));
+                        //sendData(String.valueOf(progress));
                     }
+
+                    dimmingValueGlobal = String.valueOf(progress);
                 }
             });
             // ***************************************************************
         }
 
-        @Override
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // **************************  Region Default ************************
+
+    @Override
         public boolean onCreateOptionsMenu (Menu menu){
             // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.menu_analytics, menu);

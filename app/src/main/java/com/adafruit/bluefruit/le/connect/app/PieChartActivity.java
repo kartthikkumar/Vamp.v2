@@ -103,6 +103,7 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
         l.setXEntrySpace(7f);
         l.setYEntrySpace(0f);
         l.setYOffset(0f);
+        l.setTextColor(Color.WHITE);
     }
 
     @Override
@@ -229,7 +230,7 @@ public class PieChartActivity extends DemoBase implements OnSeekBarChangeListene
         PieData data = new PieData(xVals, dataSet);
         data.setValueFormatter(new PercentFormatter());
         data.setValueTextSize(12f);
-        data.setValueTextColor(Color.WHITE);
+        data.setValueTextColor(Color.BLACK);
 //        data.setValueTypeface(tf);
         mChart.setData(data);
 

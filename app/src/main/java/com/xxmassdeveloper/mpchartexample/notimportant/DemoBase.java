@@ -18,7 +18,9 @@ public abstract class DemoBase extends FragmentActivity {
     };
 
     protected String[] mParties = new String[] {
-            "Receiver", "Flat Screen", "Lamp", "PS4", "Computer", "MacBook", "AC"
+            "Receiver", "Flat Screen", "Lamp", "PS4", "Computer", "MacBook", "AC", "Fan", "Fireplace",
+            "Plug", "Wall Outlet"
+
     };
 
     @Override
