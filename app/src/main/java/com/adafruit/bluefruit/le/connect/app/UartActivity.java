@@ -60,6 +60,8 @@ public class UartActivity extends UartInterfaceActivity implements BleManager.Bl
     private final static boolean kShowUartControlsInTopBar = true;
     public final static int kDefaultMaxPacketsToPaintAsText = 500;
 
+    public static String uartRead;
+
 
     // Activity request codes (used for onActivityResult)
     private static final int kActivityRequestCode_ConnectedSettingsActivity = 0;
@@ -636,13 +638,8 @@ public class UartActivity extends UartInterfaceActivity implements BleManager.Bl
                 mDataBuffer.add(dataChunk);
                 final String formattedData = mShowDataInHexFormat ? asciiToHex(data) : data;
 
-                SharedPreferences settings2 = PreferenceManager.getDefaultSharedPreferences(this);
-                SharedPreferences.Editor editor = settings2.edit();
-                editor.putString("myRXValue", data);
-                editor.apply();
-
-//                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPref.edit();
+//                SharedPreferences settings2 = PreferenceManager.getDefaultSharedPreferences(this);
+//                SharedPreferences.Editor editor = settings2.edit();
 //                editor.putString("myRXValue", data);
 //                editor.apply();
 

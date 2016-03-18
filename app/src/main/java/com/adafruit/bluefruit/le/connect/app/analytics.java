@@ -258,7 +258,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 
 
 //                    // LAMP
-//                    String infoLamp = "0";
+//                    String infoLamp = "00";
 //                    if (toggleONOFF) {
 //                        infoLamp += "1";
 //                    }
@@ -266,7 +266,7 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 //                        infoLamp += "0";
 //                    }
 //
-//                    infoLamp += "00000";
+//                    infoLamp += "0000";
 //                    if (rssiValueGlobal < -50) {
 //                        infoLamp += "0";
 //                    }
@@ -275,14 +275,14 @@ public class analytics extends UartInterfaceActivity implements BleManager.BleMa
 //                    }
 
                     // FAN
-                    String infoFan = "1";
+                    String infoFan = "01";
                     if(toggleONOFF){
                         infoFan += "1";
                     }
                     else{
                         infoFan += "0";
                     }
-                    infoFan += "10";
+                    infoFan += "1";
                     infoFan += dimmingValueGlobal;
 
 
