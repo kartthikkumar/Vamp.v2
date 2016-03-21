@@ -28,7 +28,7 @@ final class MyAdapter extends BaseAdapter {
     public MyAdapter(Context context) {
         mInflater = LayoutInflater.from(context);
 
-        mItems.add(new Item("DC Library",       R.drawable.school));
+        mItems.add(new Item("Engineering 6",       R.drawable.school));
         mItems.add(new Item("Bathroom",   R.drawable.bathroom));
         mItems.add(new Item("Kitchen", R.drawable.kitchen));
         mItems.add(new Item("Stairs",      R.drawable.stairs));

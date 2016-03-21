@@ -92,7 +92,7 @@
         android:id="@+id/lampButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@drawable/fan"
+        android:background="@drawable/lamp"
         android:layout_above="@+id/piechartstart"
         android:layout_centerHorizontal="true" />
 
